@@ -10,7 +10,7 @@ class VehicleInfo {
   String get displayName => json["display_name"];
   String get optionCodes => json["option_codes"];
   String get color => json["color"];
-  List<String> get tokens => json["tokens"];
+  List<String> get tokens => json["tokens"].cast<String>();
   String get state => json["state"];
   bool get isInService => json["in_service"];
   String get idString => json["id_s"];
@@ -71,12 +71,42 @@ class VehicleInfo {
     await sendCommand("charge_port_door_close", assertCommand: true);
   }
 
+  Future setChargeLimitStandard() async {
+    await sendCommand("charge_standard", assertCommand: true);
+  }
+
+  Future setChargeLimitMaxRange() async {
+    await sendCommand("charge_max_range", assertCommand: true);
+  }
+
+  Future setChargeLimit(int percent) async {
+    await sendCommand("set_charge_limit", params: {
+      "percent": percent
+    }, assertCommand: true);
+  }
+
   Future startCharge() async {
     await sendCommand("charge_start", assertCommand: true);
   }
 
   Future stopCharge() async {
     await sendCommand("charge_stop", assertCommand: true);
+  }
+
+  Future actuateTrunk({String trunk: "rear"}) async {
+    await sendCommand("actuate_trunk", params: {
+      "which_trunk": trunk
+    }, assertCommand: true);
+  }
+
+  Future<SummonClient> summon() async {
+    return await client.summon(tokens.first, vehicleId);
+  }
+
+  Future<VehicleStream> startStream() async {
+    var stream = new VehicleStream(client.client, client.email, tokens.first, vehicleId);
+    await stream.start();
+    return stream;
   }
 }
 

@@ -73,7 +73,7 @@ class TeslaClient {
       }
       request.headers.add("Authorization", "Bearer ${_token['access_token']}");
     }
-    request.headers.contentType = ContentType.JSON;
+    request.headers.contentType = new ContentType("application", "json", charset: "utf-8");
     request.write(const JsonEncoder().convert(input));
     var response = await request.close();
     var content = await response.transform(const Utf8Decoder()).join();
@@ -121,5 +121,9 @@ class TeslaClient {
 
   Future<VehicleInfo> wake(int vehicleId) async {
     return new VehicleInfo(this, await _post("/api/1/vehicles/${vehicleId}/wake_up", {}, extract: "response"));
+  }
+
+  Future<SummonClient> summon(String token, int vehicleId) async {
+    return await SummonClient.connect(email, token, vehicleId);
   }
 }
