@@ -56,6 +56,9 @@ class TeslaClient {
     }
     var response = await request.close();
     var content = await response.transform(const Utf8Decoder()).join();
+    if (response.statusCode != 200) {
+      throw new Exception("Failed to fetch data. (Status Code: ${response.statusCode})\n${content}");
+    }
     var result = const JsonDecoder().convert(content);
     if (extract != null) {
       return result[extract];
@@ -78,7 +81,7 @@ class TeslaClient {
     var response = await request.close();
     var content = await response.transform(const Utf8Decoder()).join();
     if (response.statusCode != 200) {
-      throw new Exception("Failed to perform action.\n${content}");
+      throw new Exception("Failed to perform action. (Status Code: ${response.statusCode})\n${content}");
     }
     var result = const JsonDecoder().convert(content);
     if (extract != null) {

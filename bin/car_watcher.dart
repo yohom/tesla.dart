@@ -39,6 +39,7 @@ main(List<String> args) async {
   client = new TeslaClient(args[0], args[1]);
 
   for (var vehicle in await client.listAccountVehicles()) {
+    await vehicle.wake();
     new Future.delayed(const Duration(seconds: 2), () async {
       await _update(vehicle);
     });
