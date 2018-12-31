@@ -8,7 +8,7 @@ import 'package:postgres/postgres.dart';
 TeslaClient client;
 PostgreSQLConnection conn;
 
-_update(VehicleInfo vehicle) async {
+_update(Vehicle vehicle) async {
   try {
     var state = await vehicle.getAllVehicleState();
     var vid = state.id;

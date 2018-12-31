@@ -1,6 +1,6 @@
 part of tesla;
 
-class VehicleInfo {
+class Vehicle {
   final TeslaClient client;
   final Map<String, dynamic> json;
 
@@ -19,7 +19,7 @@ class VehicleInfo {
   String get backseatToken => json["backseat_token"];
   String get backseatTokenUpdatedAt => json["backseat_token_updated_at"].toString();
 
-  VehicleInfo(this.client, this.json);
+  Vehicle(this.client, this.json);
 
   Future<AllVehicleState> getAllVehicleState() async {
     return await client.getAllVehicleState(id);
@@ -29,7 +29,7 @@ class VehicleInfo {
     return await client.getChargeState(id);
   }
 
-  Future<VehicleInfo> wake() async {
+  Future<Vehicle> wake() async {
     return await client.wake(id);
   }
 
@@ -99,6 +99,114 @@ class VehicleInfo {
     }, assertCommand: true);
   }
 
+  Future startAutoConditioning() async {
+    await sendCommand("auto_conditioning_start", assertCommand: true);
+  }
+
+  Future stopAutoConditioning() async {
+    await sendCommand("auto_conditioning_stop", assertCommand: true);
+  }
+
+  Future setAutoConditioningTemps(num driver, num passenger) async {
+    await sendCommand("set_temps", params: {
+      "driver_temp": driver,
+      "passenger_temp": passenger
+    }, assertCommand: true);
+  }
+
+  Future sendNavigationRequest(String input) async {
+    await sendCommand("navigation_request", params: {
+      "type": "share_ext_content_raw",
+      "value": {
+        "android.intent.extra.TEXT": input
+      },
+      "locale": "en-US",
+      "timestamp_ms": new DateTime.now().millisecondsSinceEpoch.toString()
+    }, assertCommand: true);
+  }
+
+  Future mediaTogglePlayback() async {
+    await sendCommand("media_toggle_playback", assertCommand: true);
+  }
+
+  Future mediaNextTrack() async {
+    await sendCommand("media_next_track", assertCommand: true);
+  }
+
+  Future mediaPreviousTrack() async {
+    await sendCommand("media_prev_track", assertCommand: true);
+  }
+
+  Future mediaPreviousFavorite() async {
+    await sendCommand("media_prev_fav", assertCommand: true);
+  }
+
+  Future mediaNextFavorite() async {
+    await sendCommand("media_next_fav", assertCommand: true);
+  }
+
+  Future mediaVolumeUp() async {
+    await sendCommand("media_volume_up", assertCommand: true);
+  }
+
+  Future mediaVolumeDown() async {
+    await sendCommand("media_volume_down", assertCommand: true);
+  }
+
+  Future setValetMode({bool enabled: true, String pin: ""}) async {
+    await sendCommand("set_valet_mode", params: {
+      "on": enabled,
+      "password": pin
+    }, assertCommand: true);
+  }
+
+  Future resetValetPin() async {
+    await sendCommand("reset_valet_pin", assertCommand: true);
+  }
+
+  Future setSteeringWheelHeater(bool enabled) async {
+    await sendCommand("remote_steering_wheel_heater_request", params: {
+      "on": enabled
+    }, assertCommand: true);
+  }
+
+  Future setSeatHeater(SeatHeater heater, int level) async {
+    await sendCommand("remote_seat_heater_request", params: {
+      "heater": heater.id,
+      "level": level
+    }, assertCommand: true);
+  }
+
+  Future setSpeedLimit(int mph) async {
+    await sendCommand("speed_limit_set_limit", params: {
+      "limit_mph": mph
+    }, assertCommand: true);
+  }
+
+  Future controlSunroof(bool vent) async {
+    await sendCommand("sun_roof_control", params: {
+      "state": vent ? "vent" : "close"
+    }, assertCommand: true);
+  }
+
+  Future speedLimitActivate({String pin: ""}) async {
+    await sendCommand("speed_limit_activate", params: {
+      "pin": pin
+    }, assertCommand: true);
+  }
+
+  Future speedLimitDeactivate(String pin) async {
+    await sendCommand("speed_limit_deactivate", params: {
+      "pin": pin
+    }, assertCommand: true);
+  }
+
+  Future speedLimitClearPin(String pin) async {
+    await sendCommand("speed_limit_clear_pin", params: {
+      "pin": pin
+    }, assertCommand: true);
+  }
+
   Future<SummonClient> summon() async {
     return await client.summon(tokens.first, vehicleId);
   }
@@ -110,7 +218,7 @@ class VehicleInfo {
   }
 }
 
-class AllVehicleState extends VehicleInfo {
+class AllVehicleState extends Vehicle {
   final TeslaClient client;
 
   AllVehicleState(this.client, Map<String, dynamic> json) : super(client, json);
