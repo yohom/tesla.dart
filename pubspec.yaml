@@ -1,6 +1,4 @@
 name: tesla
 version: 0.0.1
-dev_dependencies:
-  postgres: ^1.0.2
 environment:
   sdk: '>=2.0.0 <3.0.0'
