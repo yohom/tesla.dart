@@ -94,13 +94,13 @@ class TeslaClient {
     await client.close();
   }
 
-  Future<List<VehicleInfo>> listAccountVehicles() async {
-    var vehicles = <VehicleInfo>[];
+  Future<List<Vehicle>> listAccountVehicles() async {
+    var vehicles = <Vehicle>[];
 
     var result = await _get("/api/1/vehicles");
 
     for (var item in result["response"]) {
-      vehicles.add(new VehicleInfo(this, item));
+      vehicles.add(new Vehicle(this, item));
     }
 
     return vehicles;
@@ -122,8 +122,8 @@ class TeslaClient {
     return false;
   }
 
-  Future<VehicleInfo> wake(int vehicleId) async {
-    return new VehicleInfo(this, await _post("/api/1/vehicles/${vehicleId}/wake_up", {}, extract: "response"));
+  Future<Vehicle> wake(int vehicleId) async {
+    return new Vehicle(this, await _post("/api/1/vehicles/${vehicleId}/wake_up", {}, extract: "response"));
   }
 
   Future<SummonClient> summon(String token, int vehicleId) async {
