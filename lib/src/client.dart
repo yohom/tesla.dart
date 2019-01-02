@@ -6,9 +6,11 @@ class TeslaClient {
   final String password;
 
   Map<String, dynamic> _token;
+  Map<String, dynamic> get token => _token;
 
-  TeslaClient(this.email, this.password, {HttpClient client}) :
-    this.client = client == null ? new HttpClient() : client;
+  TeslaClient(this.email, this.password, {HttpClient client, Map<String, dynamic> token}) :
+    this.client = client == null ? new HttpClient() : client,
+    this._token = token;
 
   bool _isCurrentTokenValid(bool refreshable) {
     if (_token == null) {
@@ -112,6 +114,22 @@ class TeslaClient {
 
   Future<ChargeState> getChargeState(int id) async {
     return new ChargeState(this, await _get("/api/1/vehicles/${id}/data_request/charge_state", extract: "response"));
+  }
+
+  Future<DriveState> getDriveState(int id) async {
+    return new DriveState(this, await _get("/api/1/vehicles/${id}/data_request/drive_state", extract: "response"));
+  }
+
+  Future<ClimateState> getClimateState(int id) async {
+    return new ClimateState(this, await _get("/api/1/vehicles/${id}/data_request/climate_state", extract: "response"));
+  }
+
+  Future<VehicleConfig> getVehicleConfig(int id) async {
+    return new VehicleConfig(this, await _get("/api/1/vehicles/${id}/data_request/vehicle_config", extract: "response"));
+  }
+
+  Future<GuiSettings> getGuiSettings(int id) async {
+    return new GuiSettings(this, await _get("/api/1/vehicles/${id}/data_request/gui_settings", extract: "response"));
   }
 
   Future<bool> sendVehicleCommand(int vehicleId, String command, {Map<String, dynamic> params}) async {

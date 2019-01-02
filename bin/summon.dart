@@ -72,7 +72,7 @@ main(List<String> args) async {
         await summon.send(new SummonAutoparkAbortMessage());
         print("[Sent] Abort");
       }
-    } catch (e, stack) {
+    } catch (e) {
       print("[ERROR] ${e}");
     }
     stdout.write("> ");

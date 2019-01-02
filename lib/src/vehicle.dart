@@ -29,6 +29,22 @@ class Vehicle {
     return await client.getChargeState(id);
   }
 
+  Future<DriveState> getDriveState() async {
+    return await client.getDriveState(id);
+  }
+
+  Future<VehicleConfig> getVehicleConfig() async {
+    return await client.getVehicleConfig(id);
+  }
+
+  Future<ClimateState> getClimateState() async {
+    return await client.getClimateState(id);
+  }
+
+  Future<GuiSettings> getGuiSettings() async {
+    return await client.getGuiSettings(id);
+  }
+
   Future<Vehicle> wake() async {
     return await client.wake(id);
   }
@@ -225,7 +241,10 @@ class AllVehicleState extends Vehicle {
 
   DriveState get driveState => new DriveState(client, json["drive_state"]);
   VehicleState get vehicleState => new VehicleState(client, json["vehicle_state"]);
+  VehicleConfig get vehicleConfig => new VehicleConfig(client, json["vehicle_config"]);
   ChargeState get chargeState => new ChargeState(client, json["charge_state"]);
+  ClimateState get climateState => new ClimateState(client, json["climate_state"]);
+  GuiSettings get guiSettings => new GuiSettings(client, json["gui_settings"]);
 }
 
 class VehicleState {
@@ -260,6 +279,102 @@ class VehicleState {
   String get vehicleName => json["vehicle_name"];
   bool get isValetMode => json["valet_mode"];
   bool get isValetPinNeeded => json["valet_pin_needed"];
+
+  SpeedLimitMode get speedLimitMode => new SpeedLimitMode(client, json["speed_limit_mode"]);
+  MediaState get mediaState => new MediaState(client, json["media_state"]);
+}
+
+class VehicleConfig {
+  final TeslaClient client;
+  final Map<String, dynamic> json;
+
+  VehicleConfig(this.client, this.json);
+
+  bool get canAcceptNavigationRequests => json["can_accept_navigation_requests"];
+  bool get canActuateTrunks => json["can_actuate_trunks"];
+  String get carSpecialType => json["car_special_type"];
+  String get carType => json["car_type"];
+  String get chargePortType => json["charge_port_type"];
+  bool get isEuVehicle => json["eu_vehicle"];
+  String get exteriorColor => json["exterior_color"];
+  bool get hasAirSuspension => json["has_air_suspension"];
+  bool get hasLudicrousMode => json["has_ludicrous_mode"];
+  bool get hasMotorizedChargePort => json["motorized_charge_port"];
+  String get performanceConfig => json["perf_config"];
+  bool get plg => json["plg"];
+  int get rearSeatHeaters => json["rear_seat_heaters"];
+  int get rearSeatType => json["rear_seat_type"];
+  bool get rhd => json["rhd"];
+  String get roofColor => json["roof_color"];
+  int get seatType => json["seat_type"];
+  String get spoilerType => json["spoiler_type"];
+  int get sunroofInstalled => json["sun_roof_installed"];
+  String get thirdRowSeats => json["third_row_seats"];
+  String get trimBadging => json["trim_badging"];
+  String get wheelType => json["wheel_type"];
+
+  int get timestamp => json["timestamp"];
+  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);  
+}
+
+class MediaState {
+  final TeslaClient client;
+  final Map<String, dynamic> json;
+
+  MediaState(this.client, this.json);
+
+  bool get isRemoteControlEnabled => json["remote_control_enabled"];
+}
+
+class ClimateState {
+  final TeslaClient client;
+  final Map<String, dynamic> json;
+
+  ClimateState(this.client, this.json);
+
+  bool get batteryHeater => json["battery_heater"];
+  bool get batteryHeaterNoPower => json["battery_heater_no_power"];
+  num get driverTemperatureSetting => json["driver_temp_setting"];
+  int get fanStatus => json["fan_status"];
+  num get insideTemperature => json["inside_temp"];
+  bool get isAutoConditioningOn => json["is_auto_conditioning_on"];
+  bool get isClimateOn => json["is_climate_on"];
+  bool get isFrontDefrosterOn => json["is_front_defroster_on"];
+  bool get isPreconditioning => json["is_preconditioning"];
+  bool get isRearDefrosterOn => json["is_rear_defroster_on"];
+  num get leftTemperatureDirection => json["left_temp_direction"];
+  num get maxAvailableTemperature => json["max_avail_temp"];
+  num get minAvailableTemperature => json["min_avail_temp"];
+  num get outsideTemperature => json["outside_temp"];
+  num get passengerTemperatureSetting => json["passenger_temp_setting"];
+  bool get isRemoteHeaterControlEnabled => json["remote_heater_control_enabled"];
+  num get rightTemperatureDirection => json["right_temp_direction"];
+  int get seatHeaterLeft => json["seat_heater_left"];
+  int get seatHeaterRearCenter => json["seat_heater_rear_center"];
+  int get seatHeaterRearLeft => json["seat_heater_rear_left"];
+  int get seatHeaterRearRight => json["seat_heater_rear_right"];
+  int get seatHeaterRight => json["seat_heater_right"];
+  bool get hasSideMirrorHeaters => json["side_mirror_heaters"];
+  bool get hasSmartPreconditioning => json["smart_preconditioning"];
+  bool get hasSteeringWheelHeater => json["steering_wheel_heater"];
+  bool get hasWiperBladeHeater => json["wiper_blade_heater"];
+
+  int get timestamp => json["timestamp"];
+  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+}
+
+class SpeedLimitMode {
+  final TeslaClient client;
+  final Map<String, dynamic> json;
+
+  SpeedLimitMode(this.client, this.json);
+
+  bool get isActive => json["active"];
+  bool get isPinCodeSet => json["pin_code_set"];
+
+  num get currentLimitMph => json["current_limit_mph"];
+  num get maxLimitMph => json["max_limit_mph"];
+  num get minLimitMph => json["min_limit_mph"];
 }
 
 class ChargeState {
@@ -302,6 +417,9 @@ class ChargeState {
 
   bool get isNotEnoughPowerToHeat => json["not_enough_power_to_heat"];
   bool get isTripCharging => json["trip_charging"];
+
+  int get timestamp => json["timestamp"];
+  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }
 
 class DriveState {
@@ -326,6 +444,22 @@ class DriveState {
   String get shiftState => json["shift_state"];
   num get speed => json["speed"];
   
+  int get timestamp => json["timestamp"];
+  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+}
+
+class GuiSettings {
+  final TeslaClient client;
+  final Map<String, dynamic> json;
+
+  GuiSettings(this.client, this.json);
+
+  bool get is24HourTime => json["gui_24_hour_time"];
+  String get chargeRateUnits => json["gui_charge_rate_units"];
+  String get distanceUnits => json["gui_distance_units"];
+  String get rangeDisplay => json["gui_range_display"];
+  String get temperatureUnits => json["gui_temperature_units"];
+
   int get timestamp => json["timestamp"];
   DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }
