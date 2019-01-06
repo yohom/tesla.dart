@@ -108,6 +108,10 @@ class TeslaClient {
     return vehicles;
   }
 
+  Future<Vehicle> getAccountVehicle(int id) async {
+    return new Vehicle(this, await _get("/api/1/vehicles/${id}", extract: "response"));
+  }
+
   Future<AllVehicleState> getAllVehicleState(int id) async {
     return new AllVehicleState(this, await _get("/api/1/vehicles/${id}/vehicle_data", extract: "response"));
   }

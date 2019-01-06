@@ -6,13 +6,24 @@ import 'package:tesla/tesla.dart';
 
 TeslaClient client;
 
-_update() async {
+_updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
   try {
-    for (var vehicle in await client.listAccountVehicles()) {
-      if (vehicle.state == "asleep") {
-        continue;
-      }
+    vehicle = await client.getAccountVehicle(vehicle.id);
+
+    if (vehicle.state != "online") {
+      schedulerTime = 10;
+
+      var json = new Map<String, dynamic>.from(vehicle.json);
+      json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
+      print(const JsonEncoder().convert(json));
+    } else {
+      schedulerTime = 30;
       var state = await vehicle.getAllVehicleState();
+
+      if (state.driveState.shiftState == null) {
+        schedulerTime = 500;
+      }
+
       var json = new Map<String, dynamic>.from(state.json);
       json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
       print(const JsonEncoder().convert(json));
@@ -21,11 +32,17 @@ _update() async {
     stderr.writeln("ERROR: ${e}\n${stack}");
   }
 
-  new Timer(const Duration(seconds: 30), _update);
+  new Timer(new Duration(seconds: schedulerTime),() {
+    _updateVehicle(vehicle, schedulerTime);
+  });
 }
 
 main(List<String> args) async {
   client = new TeslaClient(args[0], args[1]);
 
-  await _update();
+  for (var vehicle in await client.listAccountVehicles()) {
+    new Future(() async {
+      await _updateVehicle(vehicle);
+    });
+  }
 }
