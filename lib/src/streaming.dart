@@ -15,41 +15,44 @@ class VehicleStreamEvent {
   final num range;
   final num estimatedRange;
 
-  VehicleStreamEvent({
-    this.timestamp,
-    this.speed,
-    this.elevation,
-    this.estimatedLatitude,
-    this.estimatedLongitude,
-    this.estimatedHeading,
-    this.power,
-    this.shiftState,
-    this.range,
-    this.estimatedRange,
-    this.heading,
-    this.odometer,
-    this.soc
-  });
+  VehicleStreamEvent(
+      {this.timestamp,
+      this.speed,
+      this.elevation,
+      this.estimatedLatitude,
+      this.estimatedLongitude,
+      this.estimatedHeading,
+      this.power,
+      this.shiftState,
+      this.range,
+      this.estimatedRange,
+      this.heading,
+      this.odometer,
+      this.soc});
 }
 
 class VehicleStream {
-  static const String _streamParameters = "speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading";
-  
+  static const String _streamParameters =
+      "speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading";
+
   final HttpClient client;
   final int vehicleId;
   final String email;
   final String token;
 
-  final StreamController<VehicleStreamEvent> _eventController = new StreamController<VehicleStreamEvent>();
+  final StreamController<VehicleStreamEvent> _eventController =
+      new StreamController<VehicleStreamEvent>();
 
   Stream<VehicleStreamEvent> get onEvent => _eventController.stream;
 
   VehicleStream(this.client, this.email, this.token, this.vehicleId);
 
   Future start() async {
-    var url = Uri.parse("https://streaming.vn.teslamotors.com/stream/${vehicleId}/?values=${_streamParameters}");
+    var url = Uri.parse(
+        "https://streaming.vn.teslamotors.com/stream/${vehicleId}/?values=${_streamParameters}");
     var request = await client.getUrl(url);
-    var auth = const Base64Encoder.urlSafe().convert(const Utf8Encoder().convert("${email}:${token}"));
+    var auth = const Base64Encoder.urlSafe()
+        .convert(const Utf8Encoder().convert("${email}:${token}"));
     request.headers.set("Authorization", "Basic ${auth}");
     request.bufferOutput = false;
     var response = await request.close();

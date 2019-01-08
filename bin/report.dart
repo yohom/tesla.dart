@@ -32,7 +32,7 @@ _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
     stderr.writeln("ERROR: ${e}\n${stack}");
   }
 
-  new Timer(new Duration(seconds: schedulerTime),() {
+  new Timer(new Duration(seconds: schedulerTime), () {
     _updateVehicle(vehicle, schedulerTime);
   });
 }

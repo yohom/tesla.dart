@@ -17,7 +17,8 @@ class Vehicle {
   bool get isCalendarEnabled => json["calendar_enabled"];
   int get apiVersion => json["api_version"];
   String get backseatToken => json["backseat_token"];
-  String get backseatTokenUpdatedAt => json["backseat_token_updated_at"].toString();
+  String get backseatTokenUpdatedAt =>
+      json["backseat_token_updated_at"].toString();
 
   Vehicle(this.client, this.json);
 
@@ -49,7 +50,8 @@ class Vehicle {
     return await client.wake(id);
   }
 
-  Future<bool> sendCommand(String command, {Map<String, dynamic> params, bool assertCommand: false}) async {
+  Future<bool> sendCommand(String command,
+      {Map<String, dynamic> params, bool assertCommand: false}) async {
     var result = await client.sendVehicleCommand(id, command, params: params);
     if (assertCommand && !result) {
       throw new Exception("Failed to perform command '${command}'");
@@ -66,9 +68,8 @@ class Vehicle {
   }
 
   Future remoteStartDrive() async {
-    await sendCommand("remote_start_drive", params: {
-      "password": client.password
-    }, assertCommand: true);
+    await sendCommand("remote_start_drive",
+        params: {"password": client.password}, assertCommand: true);
   }
 
   Future unlock() async {
@@ -96,9 +97,8 @@ class Vehicle {
   }
 
   Future setChargeLimit(int percent) async {
-    await sendCommand("set_charge_limit", params: {
-      "percent": percent
-    }, assertCommand: true);
+    await sendCommand("set_charge_limit",
+        params: {"percent": percent}, assertCommand: true);
   }
 
   Future startCharge() async {
@@ -110,9 +110,8 @@ class Vehicle {
   }
 
   Future actuateTrunk({String trunk: "rear"}) async {
-    await sendCommand("actuate_trunk", params: {
-      "which_trunk": trunk
-    }, assertCommand: true);
+    await sendCommand("actuate_trunk",
+        params: {"which_trunk": trunk}, assertCommand: true);
   }
 
   Future startAutoConditioning() async {
@@ -124,21 +123,20 @@ class Vehicle {
   }
 
   Future setAutoConditioningTemps(num driver, num passenger) async {
-    await sendCommand("set_temps", params: {
-      "driver_temp": driver,
-      "passenger_temp": passenger
-    }, assertCommand: true);
+    await sendCommand("set_temps",
+        params: {"driver_temp": driver, "passenger_temp": passenger},
+        assertCommand: true);
   }
 
   Future sendNavigationRequest(String input) async {
-    await sendCommand("navigation_request", params: {
-      "type": "share_ext_content_raw",
-      "value": {
-        "android.intent.extra.TEXT": input
-      },
-      "locale": "en-US",
-      "timestamp_ms": new DateTime.now().millisecondsSinceEpoch.toString()
-    }, assertCommand: true);
+    await sendCommand("navigation_request",
+        params: {
+          "type": "share_ext_content_raw",
+          "value": {"android.intent.extra.TEXT": input},
+          "locale": "en-US",
+          "timestamp_ms": new DateTime.now().millisecondsSinceEpoch.toString()
+        },
+        assertCommand: true);
   }
 
   Future mediaTogglePlayback() async {
@@ -170,10 +168,8 @@ class Vehicle {
   }
 
   Future setValetMode({bool enabled: true, String pin: ""}) async {
-    await sendCommand("set_valet_mode", params: {
-      "on": enabled,
-      "password": pin
-    }, assertCommand: true);
+    await sendCommand("set_valet_mode",
+        params: {"on": enabled, "password": pin}, assertCommand: true);
   }
 
   Future resetValetPin() async {
@@ -181,46 +177,38 @@ class Vehicle {
   }
 
   Future setSteeringWheelHeater(bool enabled) async {
-    await sendCommand("remote_steering_wheel_heater_request", params: {
-      "on": enabled
-    }, assertCommand: true);
+    await sendCommand("remote_steering_wheel_heater_request",
+        params: {"on": enabled}, assertCommand: true);
   }
 
   Future setSeatHeater(SeatHeater heater, int level) async {
-    await sendCommand("remote_seat_heater_request", params: {
-      "heater": heater.id,
-      "level": level
-    }, assertCommand: true);
+    await sendCommand("remote_seat_heater_request",
+        params: {"heater": heater.id, "level": level}, assertCommand: true);
   }
 
   Future setSpeedLimit(int mph) async {
-    await sendCommand("speed_limit_set_limit", params: {
-      "limit_mph": mph
-    }, assertCommand: true);
+    await sendCommand("speed_limit_set_limit",
+        params: {"limit_mph": mph}, assertCommand: true);
   }
 
   Future controlSunroof(bool vent) async {
-    await sendCommand("sun_roof_control", params: {
-      "state": vent ? "vent" : "close"
-    }, assertCommand: true);
+    await sendCommand("sun_roof_control",
+        params: {"state": vent ? "vent" : "close"}, assertCommand: true);
   }
 
   Future speedLimitActivate({String pin: ""}) async {
-    await sendCommand("speed_limit_activate", params: {
-      "pin": pin
-    }, assertCommand: true);
+    await sendCommand("speed_limit_activate",
+        params: {"pin": pin}, assertCommand: true);
   }
 
   Future speedLimitDeactivate(String pin) async {
-    await sendCommand("speed_limit_deactivate", params: {
-      "pin": pin
-    }, assertCommand: true);
+    await sendCommand("speed_limit_deactivate",
+        params: {"pin": pin}, assertCommand: true);
   }
 
   Future speedLimitClearPin(String pin) async {
-    await sendCommand("speed_limit_clear_pin", params: {
-      "pin": pin
-    }, assertCommand: true);
+    await sendCommand("speed_limit_clear_pin",
+        params: {"pin": pin}, assertCommand: true);
   }
 
   Future<SummonClient> summon() async {
@@ -228,7 +216,8 @@ class Vehicle {
   }
 
   Future<VehicleStream> startStream() async {
-    var stream = new VehicleStream(client.client, client.email, tokens.first, vehicleId);
+    var stream =
+        new VehicleStream(client.client, client.email, tokens.first, vehicleId);
     await stream.start();
     return stream;
   }
@@ -240,10 +229,13 @@ class AllVehicleState extends Vehicle {
   AllVehicleState(this.client, Map<String, dynamic> json) : super(client, json);
 
   DriveState get driveState => new DriveState(client, json["drive_state"]);
-  VehicleState get vehicleState => new VehicleState(client, json["vehicle_state"]);
-  VehicleConfig get vehicleConfig => new VehicleConfig(client, json["vehicle_config"]);
+  VehicleState get vehicleState =>
+      new VehicleState(client, json["vehicle_state"]);
+  VehicleConfig get vehicleConfig =>
+      new VehicleConfig(client, json["vehicle_config"]);
   ChargeState get chargeState => new ChargeState(client, json["charge_state"]);
-  ClimateState get climateState => new ClimateState(client, json["climate_state"]);
+  ClimateState get climateState =>
+      new ClimateState(client, json["climate_state"]);
   GuiSettings get guiSettings => new GuiSettings(client, json["gui_settings"]);
 }
 
@@ -275,12 +267,14 @@ class VehicleState {
   bool get isRemoteStartSupported => json["remote_start_supported"];
   int get rt => json["rt"];
   int get timestamp => json["timestamp"];
-  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+  DateTime get timestampTime =>
+      new DateTime.fromMillisecondsSinceEpoch(timestamp);
   String get vehicleName => json["vehicle_name"];
   bool get isValetMode => json["valet_mode"];
   bool get isValetPinNeeded => json["valet_pin_needed"];
 
-  SpeedLimitMode get speedLimitMode => new SpeedLimitMode(client, json["speed_limit_mode"]);
+  SpeedLimitMode get speedLimitMode =>
+      new SpeedLimitMode(client, json["speed_limit_mode"]);
   MediaState get mediaState => new MediaState(client, json["media_state"]);
 }
 
@@ -290,7 +284,8 @@ class VehicleConfig {
 
   VehicleConfig(this.client, this.json);
 
-  bool get canAcceptNavigationRequests => json["can_accept_navigation_requests"];
+  bool get canAcceptNavigationRequests =>
+      json["can_accept_navigation_requests"];
   bool get canActuateTrunks => json["can_actuate_trunks"];
   String get carSpecialType => json["car_special_type"];
   String get carType => json["car_type"];
@@ -314,7 +309,8 @@ class VehicleConfig {
   String get wheelType => json["wheel_type"];
 
   int get timestamp => json["timestamp"];
-  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);  
+  DateTime get timestampTime =>
+      new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }
 
 class MediaState {
@@ -347,7 +343,8 @@ class ClimateState {
   num get minAvailableTemperature => json["min_avail_temp"];
   num get outsideTemperature => json["outside_temp"];
   num get passengerTemperatureSetting => json["passenger_temp_setting"];
-  bool get isRemoteHeaterControlEnabled => json["remote_heater_control_enabled"];
+  bool get isRemoteHeaterControlEnabled =>
+      json["remote_heater_control_enabled"];
   num get rightTemperatureDirection => json["right_temp_direction"];
   int get seatHeaterLeft => json["seat_heater_left"];
   int get seatHeaterRearCenter => json["seat_heater_rear_center"];
@@ -360,7 +357,8 @@ class ClimateState {
   bool get hasWiperBladeHeater => json["wiper_blade_heater"];
 
   int get timestamp => json["timestamp"];
-  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+  DateTime get timestampTime =>
+      new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }
 
 class SpeedLimitMode {
@@ -384,7 +382,7 @@ class ChargeState {
   ChargeState(this.client, this.json);
 
   bool get isBatteryHeaterOn => json["battery_heater_on"];
-  
+
   num get batteryLevel => json["battery_level"];
   num get usableBatteryLevel => json["usable_battery_level"];
 
@@ -401,7 +399,7 @@ class ChargeState {
 
   num get chargeMilesAddedIdeal => json["charge_miles_added_ideal"];
   num get chargeMilesAddedRated => json["charge_miles_added_rated"];
-  
+
   bool get isChargePortDoorOpen => json["charge_port_door_open"];
   String get chargePortLatch => json["charge_port_latch"];
 
@@ -419,7 +417,8 @@ class ChargeState {
   bool get isTripCharging => json["trip_charging"];
 
   int get timestamp => json["timestamp"];
-  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+  DateTime get timestampTime =>
+      new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }
 
 class DriveState {
@@ -443,9 +442,10 @@ class DriveState {
   num get power => json["power"];
   String get shiftState => json["shift_state"];
   num get speed => json["speed"];
-  
+
   int get timestamp => json["timestamp"];
-  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+  DateTime get timestampTime =>
+      new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }
 
 class GuiSettings {
@@ -461,5 +461,6 @@ class GuiSettings {
   String get temperatureUnits => json["gui_temperature_units"];
 
   int get timestamp => json["timestamp"];
-  DateTime get timestampTime => new DateTime.fromMillisecondsSinceEpoch(timestamp);
+  DateTime get timestampTime =>
+      new DateTime.fromMillisecondsSinceEpoch(timestamp);
 }

@@ -8,7 +8,8 @@ main(List<String> args) async {
     print("${state.displayName}:");
     print("  VIN: ${state.vin}");
     print("  State: ${state.state}");
-    print("  Location: ${state.driveState.latitude} LAT, ${state.driveState.longitude} LONG");
+    print(
+        "  Location: ${state.driveState.latitude} LAT, ${state.driveState.longitude} LONG");
   }
 
   client.close();

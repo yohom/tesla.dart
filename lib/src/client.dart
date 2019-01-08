@@ -8,9 +8,10 @@ class TeslaClient {
   Map<String, dynamic> _token;
   Map<String, dynamic> get token => _token;
 
-  TeslaClient(this.email, this.password, {HttpClient client, Map<String, dynamic> token}) :
-    this.client = client == null ? new HttpClient() : client,
-    this._token = token;
+  TeslaClient(this.email, this.password,
+      {HttpClient client, Map<String, dynamic> token})
+      : this.client = client == null ? new HttpClient() : client,
+        this._token = token;
 
   bool _isCurrentTokenValid(bool refreshable) {
     if (_token == null) {
@@ -21,32 +22,43 @@ class TeslaClient {
       int createdAtMs = _token["created_at"];
       int lifetimeMs = _token["expires_in"];
       var time = new DateTime.fromMillisecondsSinceEpoch(createdAtMs);
-      return time.add(new Duration(milliseconds: lifetimeMs)).difference(new DateTime.now()).inSeconds >= -60;
+      return time
+              .add(new Duration(milliseconds: lifetimeMs))
+              .difference(new DateTime.now())
+              .inSeconds >=
+          -60;
     }
     return true;
   }
 
   Future authorize() async {
     if (!_isCurrentTokenValid(false)) {
-      _token = await _post("/oauth/token", {
-        "grant_type": "password",
-        "client_id": _teslaClientId,
-        "client_secret": _teslaClientSecret,
-        "email": email,
-        "password": password
-      }, needsToken: false);
+      _token = await _post(
+          "/oauth/token",
+          {
+            "grant_type": "password",
+            "client_id": _teslaClientId,
+            "client_secret": _teslaClientSecret,
+            "email": email,
+            "password": password
+          },
+          needsToken: false);
       return;
     }
 
-    _token = await _post("/oauth/token", {
-      "grant_type": "refresh_token",
-      "client_id": _teslaClientId,
-      "client_secret": _teslaClientSecret,
-      "refresh_token": _token["refresh_token"]
-    }, needsToken: false);
+    _token = await _post(
+        "/oauth/token",
+        {
+          "grant_type": "refresh_token",
+          "client_id": _teslaClientId,
+          "client_secret": _teslaClientSecret,
+          "refresh_token": _token["refresh_token"]
+        },
+        needsToken: false);
   }
 
-  Future<Map<String, dynamic>> _get(String url, {bool needsToken: true, String extract: null}) async {
+  Future<Map<String, dynamic>> _get(String url,
+      {bool needsToken: true, String extract: null}) async {
     var uri = _teslaOwnersUrl.resolve(url);
     var request = await client.getUrl(uri);
     request.headers.set("User-Agent", "Tesla.dart");
@@ -59,7 +71,8 @@ class TeslaClient {
     var response = await request.close();
     var content = await response.transform(const Utf8Decoder()).join();
     if (response.statusCode != 200) {
-      throw new Exception("Failed to fetch data. (Status Code: ${response.statusCode})\n${content}");
+      throw new Exception(
+          "Failed to fetch data. (Status Code: ${response.statusCode})\n${content}");
     }
     var result = const JsonDecoder().convert(content);
     if (extract != null) {
@@ -68,7 +81,8 @@ class TeslaClient {
     return result;
   }
 
-  Future<Map<String, dynamic>> _post(String url, Map<String, dynamic> input, {bool needsToken: true, String extract: null}) async {
+  Future<Map<String, dynamic>> _post(String url, Map<String, dynamic> input,
+      {bool needsToken: true, String extract: null}) async {
     var uri = _teslaOwnersUrl.resolve(url);
     var request = await client.postUrl(uri);
     request.headers.set("User-Agent", "Tesla.dart");
@@ -78,12 +92,14 @@ class TeslaClient {
       }
       request.headers.add("Authorization", "Bearer ${_token['access_token']}");
     }
-    request.headers.contentType = new ContentType("application", "json", charset: "utf-8");
+    request.headers.contentType =
+        new ContentType("application", "json", charset: "utf-8");
     request.write(const JsonEncoder().convert(input));
     var response = await request.close();
     var content = await response.transform(const Utf8Decoder()).join();
     if (response.statusCode != 200) {
-      throw new Exception("Failed to perform action. (Status Code: ${response.statusCode})\n${content}");
+      throw new Exception(
+          "Failed to perform action. (Status Code: ${response.statusCode})\n${content}");
     }
     var result = const JsonDecoder().convert(content);
     if (extract != null) {
@@ -109,35 +125,54 @@ class TeslaClient {
   }
 
   Future<Vehicle> getAccountVehicle(int id) async {
-    return new Vehicle(this, await _get("/api/1/vehicles/${id}", extract: "response"));
+    return new Vehicle(
+        this, await _get("/api/1/vehicles/${id}", extract: "response"));
   }
 
   Future<AllVehicleState> getAllVehicleState(int id) async {
-    return new AllVehicleState(this, await _get("/api/1/vehicles/${id}/vehicle_data", extract: "response"));
+    return new AllVehicleState(this,
+        await _get("/api/1/vehicles/${id}/vehicle_data", extract: "response"));
   }
 
   Future<ChargeState> getChargeState(int id) async {
-    return new ChargeState(this, await _get("/api/1/vehicles/${id}/data_request/charge_state", extract: "response"));
+    return new ChargeState(
+        this,
+        await _get("/api/1/vehicles/${id}/data_request/charge_state",
+            extract: "response"));
   }
 
   Future<DriveState> getDriveState(int id) async {
-    return new DriveState(this, await _get("/api/1/vehicles/${id}/data_request/drive_state", extract: "response"));
+    return new DriveState(
+        this,
+        await _get("/api/1/vehicles/${id}/data_request/drive_state",
+            extract: "response"));
   }
 
   Future<ClimateState> getClimateState(int id) async {
-    return new ClimateState(this, await _get("/api/1/vehicles/${id}/data_request/climate_state", extract: "response"));
+    return new ClimateState(
+        this,
+        await _get("/api/1/vehicles/${id}/data_request/climate_state",
+            extract: "response"));
   }
 
   Future<VehicleConfig> getVehicleConfig(int id) async {
-    return new VehicleConfig(this, await _get("/api/1/vehicles/${id}/data_request/vehicle_config", extract: "response"));
+    return new VehicleConfig(
+        this,
+        await _get("/api/1/vehicles/${id}/data_request/vehicle_config",
+            extract: "response"));
   }
 
   Future<GuiSettings> getGuiSettings(int id) async {
-    return new GuiSettings(this, await _get("/api/1/vehicles/${id}/data_request/gui_settings", extract: "response"));
+    return new GuiSettings(
+        this,
+        await _get("/api/1/vehicles/${id}/data_request/gui_settings",
+            extract: "response"));
   }
 
-  Future<bool> sendVehicleCommand(int vehicleId, String command, {Map<String, dynamic> params}) async {
-    var result = await _post("/api/1/vehicles/${vehicleId}/command/${command}", params == null ? {} : params);
+  Future<bool> sendVehicleCommand(int vehicleId, String command,
+      {Map<String, dynamic> params}) async {
+    var result = await _post("/api/1/vehicles/${vehicleId}/command/${command}",
+        params == null ? {} : params);
     if (result["response"] is bool) {
       return result["response"];
     }
@@ -145,7 +180,10 @@ class TeslaClient {
   }
 
   Future<Vehicle> wake(int vehicleId) async {
-    return new Vehicle(this, await _post("/api/1/vehicles/${vehicleId}/wake_up", {}, extract: "response"));
+    return new Vehicle(
+        this,
+        await _post("/api/1/vehicles/${vehicleId}/wake_up", {},
+            extract: "response"));
   }
 
   Future<SummonClient> summon(String token, int vehicleId) async {

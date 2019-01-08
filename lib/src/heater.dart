@@ -9,7 +9,8 @@ class SeatHeater {
   static const SeatHeater thirdRowLeft = const SeatHeater("3rd Row Left", 7);
   static const SeatHeater thirdRowRight = const SeatHeater("3rd Row Right", 8);
   static const SeatHeater rearLeftBack = const SeatHeater("Rear Left Back", 3);
-  static const SeatHeater rearRightBack = const SeatHeater("Rear Right Back", 6);
+  static const SeatHeater rearRightBack =
+      const SeatHeater("Rear Right Back", 6);
 
   static const List<SeatHeater> heaters = const <SeatHeater>[
     frontLeft,

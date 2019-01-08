@@ -18,12 +18,12 @@ class SummonHelloMessage extends SummonMessage {
   final int heartbeatFrequency;
   final int connectionTimeout;
 
-  SummonHelloMessage({
-    this.autoparkPauseTimeout,
-    this.autoparkStopTimeout,
-    this.heartbeatFrequency,
-    this.connectionTimeout
-  }) : super("control:hello");
+  SummonHelloMessage(
+      {this.autoparkPauseTimeout,
+      this.autoparkStopTimeout,
+      this.heartbeatFrequency,
+      this.connectionTimeout})
+      : super("control:hello");
 }
 
 class SummonGoodbyeMessage extends SummonMessage {
@@ -43,11 +43,9 @@ class SummonAutoparkCommandResultMessage extends SummonMessage {
   final String failureReason;
   final bool result;
 
-  SummonAutoparkCommandResultMessage({
-    this.cmdType,
-    this.failureReason,
-    this.result
-  }) : super("autopark:cmd_result");
+  SummonAutoparkCommandResultMessage(
+      {this.cmdType, this.failureReason, this.result})
+      : super("autopark:cmd_result");
 }
 
 class SummonAutoparkErrorMessage extends SummonMessage {
@@ -61,11 +59,9 @@ class SummonHomelinkCommandResultMessage extends SummonMessage {
   final String failureReason;
   final bool result;
 
-  SummonHomelinkCommandResultMessage({
-    this.cmdType,
-    this.failureReason,
-    this.result
-  }) : super("homelink:cmd_result");
+  SummonHomelinkCommandResultMessage(
+      {this.cmdType, this.failureReason, this.result})
+      : super("homelink:cmd_result");
 }
 
 class SummonAutoparkStyleMessage extends SummonMessage {
@@ -90,48 +86,47 @@ class SummonVehicleLocationMessage extends SummonMessage {
   final num latitude;
   final num longitude;
 
-  SummonVehicleLocationMessage({this.latitude, this.longitude}) : super("vehicle_data:location");
+  SummonVehicleLocationMessage({this.latitude, this.longitude})
+      : super("vehicle_data:location");
 }
 
 class SummonAutoparkHeartbeatCarMessage extends SummonMessage {
   final DateTime timestamp;
 
-  SummonAutoparkHeartbeatCarMessage({this.timestamp}) : super("autopark:heartbeat_car");
+  SummonAutoparkHeartbeatCarMessage({this.timestamp})
+      : super("autopark:heartbeat_car");
 }
 
 class SummonAutoparkHeartbeatAppMessage extends SummonRequestMessage {
   SummonAutoparkHeartbeatAppMessage() : super("autopark:heartbeat_app");
 
   @override
-  Map<String, dynamic> get params => {
-    "timestamp": new DateTime.now().millisecondsSinceEpoch
-  };
+  Map<String, dynamic> get params =>
+      {"timestamp": new DateTime.now().millisecondsSinceEpoch};
 }
 
 class SummonAutoparkForwardMessage extends SummonRequestMessage {
   final num latitude;
   final num longitude;
 
-  SummonAutoparkForwardMessage(this.latitude, this.longitude) : super("autopark:cmd_forward");
+  SummonAutoparkForwardMessage(this.latitude, this.longitude)
+      : super("autopark:cmd_forward");
 
   @override
-  Map<String, dynamic> get params => {
-    "latitude": latitude,
-    "longitude": longitude
-  };
+  Map<String, dynamic> get params =>
+      {"latitude": latitude, "longitude": longitude};
 }
 
 class SummonAutoparkReverseMessage extends SummonRequestMessage {
   final num latitude;
   final num longitude;
 
-  SummonAutoparkReverseMessage(this.latitude, this.longitude) : super("autopark:cmd_reverse");
+  SummonAutoparkReverseMessage(this.latitude, this.longitude)
+      : super("autopark:cmd_reverse");
 
   @override
-  Map<String, dynamic> get params => {
-    "latitude": latitude,
-    "longitude": longitude
-  };
+  Map<String, dynamic> get params =>
+      {"latitude": latitude, "longitude": longitude};
 }
 
 class SummonAutoparkAbortMessage extends SummonRequestMessage {
@@ -145,13 +140,12 @@ class SummonHomelinkTriggerMessage extends SummonRequestMessage {
   final num latitude;
   final num longitude;
 
-  SummonHomelinkTriggerMessage(this.latitude, this.longitude) : super("homelink:cmd_trigger");
+  SummonHomelinkTriggerMessage(this.latitude, this.longitude)
+      : super("homelink:cmd_trigger");
 
   @override
-  Map<String, dynamic> get params => {
-    "latitude": latitude,
-    "longitude": longitude
-  };
+  Map<String, dynamic> get params =>
+      {"latitude": latitude, "longitude": longitude};
 }
 
 class SummonUnknownMessage extends SummonMessage {
@@ -162,7 +156,8 @@ class SummonUnknownMessage extends SummonMessage {
 
 class SummonClient {
   final WebSocket socket;
-  final StreamController<SummonMessage> _messageController = new StreamController<SummonMessage>();
+  final StreamController<SummonMessage> _messageController =
+      new StreamController<SummonMessage>();
 
   Stream<SummonMessage> get onMessage => _messageController.stream;
 
@@ -200,65 +195,53 @@ class SummonClient {
       stopAutoHeartbeat();
 
       var frequency = message["autopark"]["heartbeat_frequency"];
-      _heartbeat = new Timer.periodic(new Duration(milliseconds: frequency), (_) {
+      _heartbeat =
+          new Timer.periodic(new Duration(milliseconds: frequency), (_) {
         sendHeartbeat();
       });
       event = new SummonHelloMessage(
-        autoparkPauseTimeout: message["autopark"]["autopark_pause_timeout"],
-        autoparkStopTimeout: message["autopark"]["autopark_stop_timeout"],
-        heartbeatFrequency: message["autopark"]["heartbeat_frequency"],
-        connectionTimeout: message["connection_timeout"]
-      );
+          autoparkPauseTimeout: message["autopark"]["autopark_pause_timeout"],
+          autoparkStopTimeout: message["autopark"]["autopark_stop_timeout"],
+          heartbeatFrequency: message["autopark"]["heartbeat_frequency"],
+          connectionTimeout: message["connection_timeout"]);
     } else if (msgType == "control:goodbye") {
-      event = new SummonGoodbyeMessage(
-        reason: message["reason"]
-      );
+      event = new SummonGoodbyeMessage(reason: message["reason"]);
     } else if (msgType == "vehicle_data:location") {
       event = new SummonVehicleLocationMessage(
-        latitude: message["latitude"],
-        longitude: message["longitude"]
-      );
+          latitude: message["latitude"], longitude: message["longitude"]);
     } else if (msgType == "autopark:status") {
-      event = new SummonAutoparkStatusMessage(
-        state: message["autopark_state"]
-      );
+      event = new SummonAutoparkStatusMessage(state: message["autopark_state"]);
     } else if (msgType == "autopark:cmd_result") {
       event = new SummonAutoparkCommandResultMessage(
-        cmdType: message["cmd_type"],
-        failureReason: message["reason"],
-        result: message["result"]
-      );
+          cmdType: message["cmd_type"],
+          failureReason: message["reason"],
+          result: message["result"]);
     } else if (msgType == "homelink:cmd_result") {
       event = new SummonHomelinkCommandResultMessage(
-        cmdType: message["command_type"],
-        failureReason: message["failure_reason"],
-        result: message["result"]
-      );
+          cmdType: message["command_type"],
+          failureReason: message["failure_reason"],
+          result: message["result"]);
     } else if (msgType == "homelink:status") {
       event = new SummonHomelinkStatusMessage(
-        homelinkNearby: message["homelink_nearby"]
-      );
+          homelinkNearby: message["homelink_nearby"]);
     } else if (msgType == "autopark:error") {
-      event = new SummonAutoparkErrorMessage(
-        errorType: message["error_type"]
-      );
+      event = new SummonAutoparkErrorMessage(errorType: message["error_type"]);
     } else if (msgType == "autopark:style") {
-      event = new SummonAutoparkStyleMessage(
-        style: message["autopark_style"]
-      );
+      event = new SummonAutoparkStyleMessage(style: message["autopark_style"]);
     } else if (msgType == "autopark:heartbeat_car") {
       event = new SummonAutoparkHeartbeatCarMessage(
-        timestamp: new DateTime.fromMillisecondsSinceEpoch(message["timestamp"])
-      );
+          timestamp:
+              new DateTime.fromMillisecondsSinceEpoch(message["timestamp"]));
     } else {
       event = new SummonUnknownMessage(msgType, message);
     }
-    
+
     _messageController.add(event);
   }
 
   void send(SummonRequestMessage message) {
-    var output = const JsonEncoder().convert(<String, dynamic>{"msg_type": message.type}..addAll(message.params));
+    var output = const JsonEncoder().convert(
+        <String, dynamic>{"msg_type": message.type}..addAll(message.params));
     socket.add(output);
   }
 
@@ -273,12 +256,14 @@ class SummonClient {
     }
   }
 
-  static Future<SummonClient> connect(String email, String token, int vehicleId) async {
-    var auth = const Base64Encoder.urlSafe().convert(const Utf8Encoder().convert("${email}:${token}"));
+  static Future<SummonClient> connect(
+      String email, String token, int vehicleId) async {
+    var auth = const Base64Encoder.urlSafe()
+        .convert(const Utf8Encoder().convert("${email}:${token}"));
 
-    var socket = await WebSocket.connect("wss://streaming.vn.teslamotors.com/connect/${vehicleId}", headers: {
-      "Authorization": "Basic ${auth}"
-    });
+    var socket = await WebSocket.connect(
+        "wss://streaming.vn.teslamotors.com/connect/${vehicleId}",
+        headers: {"Authorization": "Basic ${auth}"});
     var client = new SummonClient(socket);
     return client;
   }
