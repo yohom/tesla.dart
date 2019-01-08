@@ -1,4 +1,8 @@
 name: tesla
+description: "Control and monitor Tesla Vehicles"
 version: 0.0.1
+homepage: "https://github.com/SpinlockLabs/tesla.dart"
+authors:
+- "Kenneth Endfinger <kaendfinger@gmail.com>"
 environment:
   sdk: '>=2.0.0 <3.0.0'
