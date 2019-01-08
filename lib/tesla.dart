@@ -9,6 +9,7 @@ part 'src/vehicle.dart';
 part 'src/summon.dart';
 part 'src/streaming.dart';
 part 'src/heater.dart';
+part 'src/options.dart';
 
 const String _teslaClientId =
     "81527cff06843c8634fdc09e8ac0abefb46ac849f38fe1e431c2ef2106796384";

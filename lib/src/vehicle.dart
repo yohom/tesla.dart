@@ -8,7 +8,17 @@ class Vehicle {
   int get vehicleId => json["vehicle_id"];
   String get vin => json["vin"];
   String get displayName => json["display_name"];
-  String get optionCodes => json["option_codes"];
+  String get rawOptionCodes => json["option_codes"];
+  List<String> get optionCodes => rawOptionCodes.split(",");
+  List<OptionCode> get knownOptionCodes => optionCodes
+    .map(OptionCode.lookup)
+    .where((item) => item != null)
+    .toList();
+
+  List<String> get unknownOptionCodes => optionCodes
+    .where((x) => OptionCode.lookup(x) == null)
+    .toList();
+
   String get color => json["color"];
   List<String> get tokens => json["tokens"].cast<String>();
   String get state => json["state"];
@@ -46,8 +56,20 @@ class Vehicle {
     return await client.getGuiSettings(id);
   }
 
-  Future<Vehicle> wake() async {
-    return await client.wake(id);
+  Future<Vehicle> wake({bool retry: true}) async {
+    if (!retry) {
+      return await client.wake(id);
+    }
+
+    for (var i = 1; i <= 20; i++) {
+      var result = await client.wake(id);
+      if (result.state == "online") {
+        return result;
+      }
+      await new Future.delayed(const Duration(seconds: 2));
+    }
+
+    throw new Exception("Failed to wake up vehicle.");
   }
 
   Future<bool> sendCommand(String command,
