@@ -1,5 +1,6 @@
 part of tesla;
 
+/// The Tesla API client.
 class TeslaClient {
   final HttpClient client;
   final String email;
@@ -22,11 +23,10 @@ class TeslaClient {
       int createdAtMs = _token["created_at"];
       int lifetimeMs = _token["expires_in"];
       var time = new DateTime.fromMillisecondsSinceEpoch(createdAtMs);
-      return time
-              .add(new Duration(milliseconds: lifetimeMs))
-              .difference(new DateTime.now())
-              .inSeconds >=
-          -60;
+      var endOfLifetime = time.add(new Duration(milliseconds: lifetimeMs));
+      var differenceFromNow = endOfLifetime.difference(new DateTime.now());
+
+      return differenceFromNow.inSeconds >= -60;
     }
     return true;
   }
@@ -102,6 +102,11 @@ class TeslaClient {
           "Failed to perform action. (Status Code: ${response.statusCode})\n${content}");
     }
     var result = const JsonDecoder().convert(content);
+
+    if (result is! Map) {
+      throw new Exception("Invalid Tesla API response.\n${result}");
+    }
+
     if (extract != null) {
       return result[extract];
     }

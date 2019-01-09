@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:tesla/tesla.dart';
+import 'package:tesla/tool.dart';
 
 TeslaClient client;
 
@@ -19,7 +19,7 @@ _update() async {
 }
 
 main(List<String> args) async {
-  client = new TeslaClient(args[0], args[1]);
+  client = getTeslaClient();
 
   await _update();
 }

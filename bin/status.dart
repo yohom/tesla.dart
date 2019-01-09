@@ -1,7 +1,7 @@
-import 'package:tesla/tesla.dart';
+import 'package:tesla/tool.dart';
 
-main(List<String> args) async {
-  var client = new TeslaClient(args[0], args[1]);
+main() async {
+  var client = getTeslaClient();
 
   for (var vehicle in await client.listAccountVehicles()) {
     await vehicle.wake();

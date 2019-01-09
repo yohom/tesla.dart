@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:tesla/tesla.dart';
+import 'package:tesla/tool.dart';
 
 TeslaClient client;
 
@@ -37,8 +37,8 @@ _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
   });
 }
 
-main(List<String> args) async {
-  client = new TeslaClient(args[0], args[1]);
+main() async {
+  client = getTeslaClient();
 
   for (var vehicle in await client.listAccountVehicles()) {
     new Future(() async {

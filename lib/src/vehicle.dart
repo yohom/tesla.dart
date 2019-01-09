@@ -10,14 +10,11 @@ class Vehicle {
   String get displayName => json["display_name"];
   String get rawOptionCodes => json["option_codes"];
   List<String> get optionCodes => rawOptionCodes.split(",");
-  List<OptionCode> get knownOptionCodes => optionCodes
-    .map(OptionCode.lookup)
-    .where((item) => item != null)
-    .toList();
+  List<OptionCode> get knownOptionCodes =>
+      optionCodes.map(OptionCode.lookup).where((item) => item != null).toList();
 
-  List<String> get unknownOptionCodes => optionCodes
-    .where((x) => OptionCode.lookup(x) == null)
-    .toList();
+  List<String> get unknownOptionCodes =>
+      optionCodes.where((x) => OptionCode.lookup(x) == null).toList();
 
   String get color => json["color"];
   List<String> get tokens => json["tokens"].cast<String>();

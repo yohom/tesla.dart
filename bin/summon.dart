@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:tesla/tesla.dart';
+import 'package:tesla/tool.dart';
 
 TeslaClient client;
 SummonVehicleLocationMessage location;
@@ -45,7 +45,7 @@ Future<SummonClient> _begin() async {
 }
 
 main(List<String> args) async {
-  client = new TeslaClient(args[0], args[1]);
+  client = getTeslaClient();
 
   var summon = await _begin();
   stdout.write("> ");
