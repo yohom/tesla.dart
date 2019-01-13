@@ -1,9 +1,12 @@
 part of tesla;
 
-class SpeedLimitMode {
+class SpeedLimitMode implements TeslaObject {
   SpeedLimitMode(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   bool get isActive => json["active"];

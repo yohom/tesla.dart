@@ -6,6 +6,7 @@
 
 ## v0.0.2
 
-- Code cleanup.
+- Abstract API and cleanup.
 - Option code support.
-
+- Support for software updates.
+- Multi-platform support.

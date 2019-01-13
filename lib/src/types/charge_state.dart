@@ -1,9 +1,12 @@
 part of tesla;
 
-class ChargeState {
+class ChargeState implements TeslaObject {
   ChargeState(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   bool get isBatteryHeaterOn => json["battery_heater_on"];

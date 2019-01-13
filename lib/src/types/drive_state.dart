@@ -1,9 +1,12 @@
 part of tesla;
 
-class DriveState {
+class DriveState implements TeslaObject {
   DriveState(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   int get gpsAsOf => json["gps_as_of"];

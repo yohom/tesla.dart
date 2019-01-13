@@ -1,9 +1,12 @@
 part of tesla;
 
-class Vehicle {
+class Vehicle implements TeslaObject {
   Vehicle(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   int get id => json["id"];

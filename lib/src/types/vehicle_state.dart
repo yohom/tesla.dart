@@ -1,9 +1,12 @@
 part of tesla;
 
-class VehicleState {
+class VehicleState implements TeslaObject {
   VehicleState(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   int get apiVersion => json["api_version"];
@@ -39,10 +42,13 @@ class VehicleState {
   MediaState get mediaState => new MediaState(client, json["media_state"]);
 }
 
-class VehicleConfig {
+class VehicleConfig implements TeslaObject {
   VehicleConfig(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   bool get canAcceptNavigationRequests =>

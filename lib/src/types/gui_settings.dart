@@ -1,9 +1,12 @@
 part of tesla;
 
-class GuiSettings {
+class GuiSettings implements TeslaObject {
   GuiSettings(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   bool get is24HourTime => json["gui_24_hour_time"];

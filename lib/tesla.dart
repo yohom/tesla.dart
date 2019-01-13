@@ -8,6 +8,7 @@ part 'src/client.dart';
 part 'src/summon.dart';
 part 'src/option_codes.dart';
 
+part 'src/types/object.dart';
 part 'src/types/vehicle.dart';
 part 'src/types/all_vehicle_state.dart';
 part 'src/types/charge_state.dart';

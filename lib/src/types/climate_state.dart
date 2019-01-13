@@ -1,9 +1,12 @@
 part of tesla;
 
-class ClimateState {
+class ClimateState implements TeslaObject {
   ClimateState(this.client, this.json);
 
+  @override
   final TeslaClient client;
+
+  @override
   final Map<String, dynamic> json;
 
   bool get batteryHeater => json["battery_heater"];
