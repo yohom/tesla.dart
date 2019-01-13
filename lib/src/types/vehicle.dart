@@ -69,165 +69,187 @@ class Vehicle {
     throw new Exception("Failed to wake up vehicle.");
   }
 
-  Future<bool> sendCommand(String command,
-      {Map<String, dynamic> params, bool assertCommand: false}) async {
-    var result = await client.sendVehicleCommand(id, command, params: params);
-    if (assertCommand && !result) {
-      throw new Exception("Failed to perform command '${command}'");
-    }
-    return result;
+  Future sendCommand(String command, {Map<String, dynamic> params}) async {
+    await client.sendVehicleCommand(id, command, params: params);
   }
 
   Future flashLights() async {
-    await sendCommand("flash_lights", assertCommand: true);
+    await sendCommand("flash_lights");
   }
 
   Future honkHorn() async {
-    await sendCommand("honk_horn", assertCommand: true);
+    await sendCommand("honk_horn");
   }
 
   Future remoteStartDrive() async {
     await sendCommand("remote_start_drive",
-        params: {"password": client.password}, assertCommand: true);
+        params: {"password": client.password});
   }
 
   Future unlock() async {
-    await sendCommand("door_unlock", assertCommand: true);
+    await sendCommand("door_unlock");
   }
 
   Future lock() async {
-    await sendCommand("door_lock", assertCommand: true);
+    await sendCommand("door_lock");
   }
 
   Future openChargePort() async {
-    await sendCommand("charge_port_door_open", assertCommand: true);
+    await sendCommand("charge_port_door_open");
   }
 
   Future closeChargePort() async {
-    await sendCommand("charge_port_door_close", assertCommand: true);
+    await sendCommand("charge_port_door_close");
   }
 
   Future setChargeLimitStandard() async {
-    await sendCommand("charge_standard", assertCommand: true);
+    await sendCommand("charge_standard");
   }
 
   Future setChargeLimitMaxRange() async {
-    await sendCommand("charge_max_range", assertCommand: true);
+    await sendCommand("charge_max_range");
   }
 
   Future setChargeLimit(int percent) async {
-    await sendCommand("set_charge_limit",
-        params: {"percent": percent}, assertCommand: true);
+    await sendCommand("set_charge_limit", params: {"percent": percent});
   }
 
   Future startCharge() async {
-    await sendCommand("charge_start", assertCommand: true);
+    await sendCommand("charge_start");
   }
 
   Future stopCharge() async {
-    await sendCommand("charge_stop", assertCommand: true);
+    await sendCommand("charge_stop");
   }
 
   Future actuateTrunk({String trunk: "rear"}) async {
-    await sendCommand("actuate_trunk",
-        params: {"which_trunk": trunk}, assertCommand: true);
+    await sendCommand("actuate_trunk", params: {"which_trunk": trunk});
   }
 
   Future startAutoConditioning() async {
-    await sendCommand("auto_conditioning_start", assertCommand: true);
+    await sendCommand("auto_conditioning_start");
   }
 
   Future stopAutoConditioning() async {
-    await sendCommand("auto_conditioning_stop", assertCommand: true);
+    await sendCommand("auto_conditioning_stop");
   }
 
   Future setAutoConditioningTemps(num driver, num passenger) async {
     await sendCommand("set_temps",
-        params: {"driver_temp": driver, "passenger_temp": passenger},
-        assertCommand: true);
+        params: {"driver_temp": driver, "passenger_temp": passenger});
   }
 
   Future sendNavigationRequest(String input) async {
-    await sendCommand("navigation_request",
-        params: {
-          "type": "share_ext_content_raw",
-          "value": {"android.intent.extra.TEXT": input},
-          "locale": "en-US",
-          "timestamp_ms": new DateTime.now().millisecondsSinceEpoch.toString()
-        },
-        assertCommand: true);
+    await sendCommand("navigation_request", params: {
+      "type": "share_ext_content_raw",
+      "value": {"android.intent.extra.TEXT": input},
+      "locale": "en-US",
+      "timestamp_ms": new DateTime.now().millisecondsSinceEpoch.toString()
+    });
   }
 
   Future mediaTogglePlayback() async {
-    await sendCommand("media_toggle_playback", assertCommand: true);
+    await sendCommand(
+      "media_toggle_playback"
+    );
   }
 
   Future mediaNextTrack() async {
-    await sendCommand("media_next_track", assertCommand: true);
+    await sendCommand(
+      "media_next_track"
+    );
   }
 
   Future mediaPreviousTrack() async {
-    await sendCommand("media_prev_track", assertCommand: true);
+    await sendCommand(
+      "media_prev_track"
+    );
   }
 
   Future mediaPreviousFavorite() async {
-    await sendCommand("media_prev_fav", assertCommand: true);
+    await sendCommand(
+      "media_prev_fav"
+    );
   }
 
   Future mediaNextFavorite() async {
-    await sendCommand("media_next_fav", assertCommand: true);
+    await sendCommand(
+      "media_next_fav"
+    );
   }
 
   Future mediaVolumeUp() async {
-    await sendCommand("media_volume_up", assertCommand: true);
+    await sendCommand(
+      "media_volume_up"
+    );
   }
 
   Future mediaVolumeDown() async {
-    await sendCommand("media_volume_down", assertCommand: true);
+    await sendCommand(
+      "media_volume_down"
+    );
   }
 
   Future setValetMode({bool enabled: true, String pin: ""}) async {
-    await sendCommand("set_valet_mode",
-        params: {"on": enabled, "password": pin}, assertCommand: true);
+    await sendCommand(
+      "set_valet_mode",
+      params: {"on": enabled, "password": pin}
+    );
   }
 
   Future resetValetPin() async {
-    await sendCommand("reset_valet_pin", assertCommand: true);
+    await sendCommand(
+      "reset_valet_pin"
+    );
   }
 
   Future setSteeringWheelHeater(bool enabled) async {
-    await sendCommand("remote_steering_wheel_heater_request",
-        params: {"on": enabled}, assertCommand: true);
+    await sendCommand(
+      "remote_steering_wheel_heater_request",
+      params: {"on": enabled}
+    );
   }
 
   Future setSeatHeater(SeatHeater heater, int level) async {
-    await sendCommand("remote_seat_heater_request",
-        params: {"heater": heater.id, "level": level}, assertCommand: true);
+    await sendCommand(
+      "remote_seat_heater_request",
+      params: {"heater": heater.id, "level": level}
+    );
   }
 
   Future setSpeedLimit(int mph) async {
-    await sendCommand("speed_limit_set_limit",
-        params: {"limit_mph": mph}, assertCommand: true);
+    await sendCommand(
+      "speed_limit_set_limit",
+      params: {"limit_mph": mph}
+    );
   }
 
   Future controlSunroof(bool vent) async {
-    await sendCommand("sun_roof_control",
-        params: {"state": vent ? "vent" : "close"}, assertCommand: true);
+    await sendCommand(
+      "sun_roof_control",
+      params: {"state": vent ? "vent" : "close"}
+    );
   }
 
   Future speedLimitActivate({String pin: ""}) async {
-    await sendCommand("speed_limit_activate",
-        params: {"pin": pin}, assertCommand: true);
+    await sendCommand(
+      "speed_limit_activate",
+      params: {"pin": pin}
+    );
   }
 
   Future speedLimitDeactivate(String pin) async {
-    await sendCommand("speed_limit_deactivate",
-        params: {"pin": pin}, assertCommand: true);
+    await sendCommand(
+      "speed_limit_deactivate",
+      params: {"pin": pin}
+    );
   }
 
   Future speedLimitClearPin(String pin) async {
-    await sendCommand("speed_limit_clear_pin",
-        params: {"pin": pin}, assertCommand: true);
+    await sendCommand(
+      "speed_limit_clear_pin",
+      params: {"pin": pin}
+    );
   }
 
   Future<SummonClient> summon() async {
@@ -239,5 +261,18 @@ class Vehicle {
         new VehicleStream(client.client, client.email, tokens.first, vehicleId);
     await stream.start();
     return stream;
+  }
+
+  Future scheduleSoftwareUpdate({int offsetSeconds: 0}) async {
+    await sendCommand(
+      "schedule_software_update",
+      params: {"offset_sec": offsetSeconds}
+    );
+  }
+
+  Future cancelSoftwareUpdate() async {
+    await sendCommand(
+      "cancel_software_update"
+    );
   }
 }

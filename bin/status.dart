@@ -9,10 +9,9 @@ main() async {
     print("${state.displayName}:");
     print("  VIN: ${state.vin}");
     print("  State: ${state.state}");
+    print("  Software Version: ${state.vehicleState.carVersion}");
     print(
         "  Location: ${state.driveState.latitude} LAT, ${state.driveState.longitude} LONG");
-    print(
-        "  Codes:\n${state.knownOptionCodes.map((x) => '    ${x}').join('\n')}");
   }
 
   client.close();

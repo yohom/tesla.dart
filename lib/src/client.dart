@@ -1,5 +1,11 @@
 part of tesla;
 
+HttpClient _createHttpClient() {
+  var client = new HttpClient();
+  client.userAgent = "Tesla.dart";
+  return client;
+}
+
 /// The Tesla API client.
 class TeslaClient {
   final HttpClient client;
@@ -11,7 +17,7 @@ class TeslaClient {
 
   TeslaClient(this.email, this.password,
       {HttpClient client, Map<String, dynamic> token})
-      : this.client = client == null ? new HttpClient() : client,
+      : this.client = client == null ? _createHttpClient() : client,
         this._token = token;
 
   bool _isCurrentTokenValid(bool refreshable) {
@@ -61,7 +67,6 @@ class TeslaClient {
       {bool needsToken: true, String extract: null}) async {
     var uri = _teslaOwnersUrl.resolve(url);
     var request = await client.getUrl(uri);
-    request.headers.set("User-Agent", "Tesla.dart");
     if (needsToken) {
       if (_token == null) {
         await authorize();
@@ -178,8 +183,13 @@ class TeslaClient {
       {Map<String, dynamic> params}) async {
     var result = await _post("/api/1/vehicles/${vehicleId}/command/${command}",
         params == null ? {} : params);
-    if (result["response"] is bool) {
-      return result["response"];
+    if (result["response"] == false) {
+      var reason = result["reason"];
+      if (reason is String && reason.trim().isNotEmpty) {
+        throw new Exception("Failed to send command '${command}': ${reason}");
+      } else {
+        throw new Exception("Failed to send command '${command}'");
+      }
     }
     return false;
   }

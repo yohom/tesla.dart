@@ -56,6 +56,7 @@ class VehicleStream {
     request.headers.set("Authorization", "Basic ${auth}");
     request.bufferOutput = false;
     var response = await request.close();
+
     if (response.statusCode != 200) {
       throw new Exception("Failed to start vehicle stream.");
     }
@@ -69,6 +70,7 @@ class VehicleStream {
 
   void _onData(List<int> bytes) {
     var line = const Utf8Decoder().convert(bytes);
-    print(line);
+    var parts = line.split(",");
+    print(parts);
   }
 }
