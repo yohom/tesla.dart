@@ -1,20 +1,6 @@
 part of tesla;
 
 class VehicleStreamEvent {
-  final DateTime timestamp;
-  final num speed;
-  final num odometer;
-  final num soc;
-  final num elevation;
-  final num heading;
-  final num estimatedHeading;
-  final num estimatedLatitude;
-  final num estimatedLongitude;
-  final num power;
-  final String shiftState;
-  final num range;
-  final num estimatedRange;
-
   VehicleStreamEvent(
       {this.timestamp,
       this.speed,
@@ -29,9 +15,25 @@ class VehicleStreamEvent {
       this.heading,
       this.odometer,
       this.soc});
+
+  final DateTime timestamp;
+  final num speed;
+  final num odometer;
+  final num soc;
+  final num elevation;
+  final num heading;
+  final num estimatedHeading;
+  final num estimatedLatitude;
+  final num estimatedLongitude;
+  final num power;
+  final String shiftState;
+  final num range;
+  final num estimatedRange;
 }
 
 class VehicleStream {
+  VehicleStream(this.client, this.email, this.token, this.vehicleId);
+
   static const String _streamParameters =
       "speed,odometer,soc,elevation,est_heading,est_lat,est_lng,power,shift_state,range,est_range,heading";
 
@@ -44,8 +46,6 @@ class VehicleStream {
       new StreamController<VehicleStreamEvent>();
 
   Stream<VehicleStreamEvent> get onEvent => _eventController.stream;
-
-  VehicleStream(this.client, this.email, this.token, this.vehicleId);
 
   Future start() async {
     var url = Uri.parse(

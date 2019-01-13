@@ -6,7 +6,7 @@ import 'package:tesla/tool.dart';
 
 TeslaClient client;
 
-_updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
+Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
   try {
     vehicle = await client.getAccountVehicle(vehicle.id);
 
@@ -37,7 +37,7 @@ _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
   });
 }
 
-main() async {
+Future main() async {
   client = getTeslaClient();
 
   for (var vehicle in await client.listAccountVehicles()) {

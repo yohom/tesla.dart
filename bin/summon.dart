@@ -7,7 +7,7 @@ import 'package:tesla/tool.dart';
 TeslaClient client;
 SummonVehicleLocationMessage location;
 
-_handleEvent(event) {
+void _handleEvent(event) {
   if (event is SummonAutoparkErrorMessage) {
     print("[Autopark Error] ${event.errorType}");
   } else if (event is SummonAutoparkCommandResultMessage) {
@@ -44,7 +44,7 @@ Future<SummonClient> _begin() async {
   return summon;
 }
 
-main(List<String> args) async {
+Future main(List<String> args) async {
   client = getTeslaClient();
 
   var summon = await _begin();

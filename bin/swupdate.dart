@@ -1,6 +1,6 @@
 import 'package:tesla/tool.dart';
 
-main() async {
+Future main() async {
   var client = getTeslaClient();
 
   for (var vehicle in await client.listAccountVehicles()) {

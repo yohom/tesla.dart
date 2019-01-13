@@ -1,10 +1,10 @@
 part of tesla;
 
 class ClimateState {
+  ClimateState(this.client, this.json);
+
   final TeslaClient client;
   final Map<String, dynamic> json;
-
-  ClimateState(this.client, this.json);
 
   bool get batteryHeater => json["battery_heater"];
   bool get batteryHeaterNoPower => json["battery_heater_no_power"];

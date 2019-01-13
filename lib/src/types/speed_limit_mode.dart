@@ -1,10 +1,10 @@
 part of tesla;
 
 class SpeedLimitMode {
+  SpeedLimitMode(this.client, this.json);
+
   final TeslaClient client;
   final Map<String, dynamic> json;
-
-  SpeedLimitMode(this.client, this.json);
 
   bool get isActive => json["active"];
   bool get isPinCodeSet => json["pin_code_set"];

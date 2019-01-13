@@ -8,17 +8,17 @@ HttpClient _createHttpClient() {
 
 /// The Tesla API client.
 class TeslaClient {
+  TeslaClient(this.email, this.password,
+      {HttpClient client, Map<String, dynamic> token})
+      : this.client = client == null ? _createHttpClient() : client,
+        this._token = token;
+
   final HttpClient client;
   final String email;
   final String password;
 
   Map<String, dynamic> _token;
   Map<String, dynamic> get token => _token;
-
-  TeslaClient(this.email, this.password,
-      {HttpClient client, Map<String, dynamic> token})
-      : this.client = client == null ? _createHttpClient() : client,
-        this._token = token;
 
   bool _isCurrentTokenValid(bool refreshable) {
     if (_token == null) {
@@ -64,7 +64,7 @@ class TeslaClient {
   }
 
   Future<Map<String, dynamic>> _get(String url,
-      {bool needsToken: true, String extract: null}) async {
+      {bool needsToken: true, String extract}) async {
     var uri = _teslaOwnersUrl.resolve(url);
     var request = await client.getUrl(uri);
     if (needsToken) {
@@ -87,7 +87,7 @@ class TeslaClient {
   }
 
   Future<Map<String, dynamic>> _post(String url, Map<String, dynamic> input,
-      {bool needsToken: true, String extract: null}) async {
+      {bool needsToken: true, String extract}) async {
     var uri = _teslaOwnersUrl.resolve(url);
     var request = await client.postUrl(uri);
     request.headers.set("User-Agent", "Tesla.dart");

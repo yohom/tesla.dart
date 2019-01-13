@@ -1,10 +1,10 @@
 part of tesla;
 
 class VehicleState {
+  VehicleState(this.client, this.json);
+
   final TeslaClient client;
   final Map<String, dynamic> json;
-
-  VehicleState(this.client, this.json);
 
   int get apiVersion => json["api_version"];
   String get autoparkStateV2 => json["autopark_state_v2"];
@@ -40,10 +40,10 @@ class VehicleState {
 }
 
 class VehicleConfig {
+  VehicleConfig(this.client, this.json);
+
   final TeslaClient client;
   final Map<String, dynamic> json;
-
-  VehicleConfig(this.client, this.json);
 
   bool get canAcceptNavigationRequests =>
       json["can_accept_navigation_requests"];

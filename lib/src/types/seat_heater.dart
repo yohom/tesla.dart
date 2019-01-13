@@ -1,6 +1,8 @@
 part of tesla;
 
 class SeatHeater {
+  const SeatHeater(this.name, this.id);
+
   static const SeatHeater frontLeft = const SeatHeater("Front Left", 0);
   static const SeatHeater frontRight = const SeatHeater("Front Right", 1);
   static const SeatHeater rearLeft = const SeatHeater("Rear Left", 2);
@@ -34,6 +36,4 @@ class SeatHeater {
 
   final String name;
   final int id;
-
-  const SeatHeater(this.name, this.id);
 }

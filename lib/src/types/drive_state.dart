@@ -1,10 +1,10 @@
 part of tesla;
 
 class DriveState {
+  DriveState(this.client, this.json);
+
   final TeslaClient client;
   final Map<String, dynamic> json;
-
-  DriveState(this.client, this.json);
 
   int get gpsAsOf => json["gps_as_of"];
   DateTime get gpsAsOfTime => new DateTime.fromMillisecondsSinceEpoch(gpsAsOf);

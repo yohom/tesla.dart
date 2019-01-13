@@ -4,7 +4,7 @@ import 'package:tesla/tool.dart';
 
 TeslaClient client;
 
-_update() async {
+Future _update() async {
   try {
     for (var vehicle in await client.listAccountVehicles()) {
       var stream = await vehicle.startStream();
@@ -18,7 +18,7 @@ _update() async {
   }
 }
 
-main(List<String> args) async {
+Future main(List<String> args) async {
   client = getTeslaClient();
 
   await _update();

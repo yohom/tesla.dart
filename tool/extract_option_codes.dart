@@ -1,21 +1,23 @@
 import 'dart:convert';
 import 'dart:io';
 
-const String teslaApiDocsOptionCodesMarkdownUrl = "https://raw.githubusercontent.com/timdorr/tesla-api/master/docs/vehicle/optioncodes.md";
+const String teslaApiDocsOptionCodesMarkdownUrl =
+    "https://raw.githubusercontent.com/timdorr/tesla-api/master/docs/vehicle/optioncodes.md";
 
-main() async {
+Future main() async {
   var client = new HttpClient();
-  var request = await client.getUrl(Uri.parse(teslaApiDocsOptionCodesMarkdownUrl));
+  var request =
+      await client.getUrl(Uri.parse(teslaApiDocsOptionCodesMarkdownUrl));
   var response = await request.close();
 
   print(r"""
 part of tesla;
 
 class OptionCode {
+  const OptionCode(this.code, this.description);
+
   final String code;
   final String description;
-
-  const OptionCode(this.code, this.description);
 
   @override
   String toString() => "OptionCode(${code}, ${description})";
@@ -23,7 +25,9 @@ class OptionCode {
 
   var codes = <String>[];
 
-  await for (var line in response.transform(const Utf8Decoder()).transform(const LineSplitter())) {
+  await for (var line in response
+      .transform(const Utf8Decoder())
+      .transform(const LineSplitter())) {
     if (!line.startsWith("| ")) {
       continue;
     }
@@ -32,12 +36,17 @@ class OptionCode {
       continue;
     }
 
-    var parts = line.split("| ").map((x) => x.trim()).where((x) => x.isNotEmpty).toList();
+    var parts = line
+        .split("| ")
+        .map((x) => x.trim())
+        .where((x) => x.isNotEmpty)
+        .toList();
 
     var code = parts[0];
     var description = parts[1];
-
-    print("  static const OptionCode ${code} = const OptionCode(${json.encode(code)}, ${json.encode(description)});");
+    print("  // ignore: constant_identifier_names");
+    print(
+        "  static const OptionCode ${code} = const OptionCode(${json.encode(code)}, ${json.encode(description)});");
     codes.add(code);
   }
 

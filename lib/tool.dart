@@ -23,6 +23,11 @@ String _getEnvKey(List<String> possible) {
         Platform.environment[key].isNotEmpty) {
       return Platform.environment[key];
     }
+
+    var dartEnvValue = new String.fromEnvironment(key);
+    if (dartEnvValue != null) {
+      return dartEnvValue;
+    }
   }
 
   throw new Exception(

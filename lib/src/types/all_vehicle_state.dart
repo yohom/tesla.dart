@@ -1,9 +1,8 @@
 part of tesla;
 
 class AllVehicleState extends Vehicle {
-  final TeslaClient client;
-
-  AllVehicleState(this.client, Map<String, dynamic> json) : super(client, json);
+  AllVehicleState(TeslaClient client, Map<String, dynamic> json)
+      : super(client, json);
 
   DriveState get driveState => new DriveState(client, json["drive_state"]);
   VehicleState get vehicleState =>

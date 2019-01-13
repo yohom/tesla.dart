@@ -1,9 +1,9 @@
 part of tesla;
 
 abstract class SummonMessage {
-  final String type;
-
   SummonMessage(this.type);
+
+  final String type;
 }
 
 abstract class SummonRequestMessage extends SummonMessage {
@@ -13,88 +13,88 @@ abstract class SummonRequestMessage extends SummonMessage {
 }
 
 class SummonHelloMessage extends SummonMessage {
-  final int autoparkPauseTimeout;
-  final int autoparkStopTimeout;
-  final int heartbeatFrequency;
-  final int connectionTimeout;
-
   SummonHelloMessage(
       {this.autoparkPauseTimeout,
       this.autoparkStopTimeout,
       this.heartbeatFrequency,
       this.connectionTimeout})
       : super("control:hello");
+
+  final int autoparkPauseTimeout;
+  final int autoparkStopTimeout;
+  final int heartbeatFrequency;
+  final int connectionTimeout;
 }
 
 class SummonGoodbyeMessage extends SummonMessage {
-  final String reason;
-
   SummonGoodbyeMessage({this.reason}) : super("control:goodbye");
+
+  final String reason;
 }
 
 class SummonPongMessage extends SummonMessage {
-  final DateTime timestamp;
-
   SummonPongMessage({this.timestamp}) : super("control:pong");
+
+  final DateTime timestamp;
 }
 
 class SummonAutoparkCommandResultMessage extends SummonMessage {
-  final String cmdType;
-  final String failureReason;
-  final bool result;
-
   SummonAutoparkCommandResultMessage(
       {this.cmdType, this.failureReason, this.result})
       : super("autopark:cmd_result");
-}
 
-class SummonAutoparkErrorMessage extends SummonMessage {
-  final String errorType;
-
-  SummonAutoparkErrorMessage({this.errorType}) : super("autopark:error");
-}
-
-class SummonHomelinkCommandResultMessage extends SummonMessage {
   final String cmdType;
   final String failureReason;
   final bool result;
+}
 
+class SummonAutoparkErrorMessage extends SummonMessage {
+  SummonAutoparkErrorMessage({this.errorType}) : super("autopark:error");
+
+  final String errorType;
+}
+
+class SummonHomelinkCommandResultMessage extends SummonMessage {
   SummonHomelinkCommandResultMessage(
       {this.cmdType, this.failureReason, this.result})
       : super("homelink:cmd_result");
+
+  final String cmdType;
+  final String failureReason;
+  final bool result;
 }
 
 class SummonAutoparkStyleMessage extends SummonMessage {
-  final String style;
-
   SummonAutoparkStyleMessage({this.style}) : super("autopark:style");
+
+  final String style;
 }
 
 class SummonAutoparkStatusMessage extends SummonMessage {
-  final String state;
-
   SummonAutoparkStatusMessage({this.state}) : super("autopark:status");
+
+  final String state;
 }
 
 class SummonHomelinkStatusMessage extends SummonMessage {
-  final bool homelinkNearby;
-
   SummonHomelinkStatusMessage({this.homelinkNearby}) : super("homelink:status");
+
+  final bool homelinkNearby;
 }
 
 class SummonVehicleLocationMessage extends SummonMessage {
-  final num latitude;
-  final num longitude;
-
   SummonVehicleLocationMessage({this.latitude, this.longitude})
       : super("vehicle_data:location");
+
+  final num latitude;
+  final num longitude;
 }
 
 class SummonAutoparkHeartbeatCarMessage extends SummonMessage {
-  final DateTime timestamp;
-
   SummonAutoparkHeartbeatCarMessage({this.timestamp})
       : super("autopark:heartbeat_car");
+
+  final DateTime timestamp;
 }
 
 class SummonAutoparkHeartbeatAppMessage extends SummonRequestMessage {
@@ -106,11 +106,11 @@ class SummonAutoparkHeartbeatAppMessage extends SummonRequestMessage {
 }
 
 class SummonAutoparkForwardMessage extends SummonRequestMessage {
-  final num latitude;
-  final num longitude;
-
   SummonAutoparkForwardMessage(this.latitude, this.longitude)
       : super("autopark:cmd_forward");
+
+  final num latitude;
+  final num longitude;
 
   @override
   Map<String, dynamic> get params =>
@@ -118,11 +118,11 @@ class SummonAutoparkForwardMessage extends SummonRequestMessage {
 }
 
 class SummonAutoparkReverseMessage extends SummonRequestMessage {
-  final num latitude;
-  final num longitude;
-
   SummonAutoparkReverseMessage(this.latitude, this.longitude)
       : super("autopark:cmd_reverse");
+
+  final num latitude;
+  final num longitude;
 
   @override
   Map<String, dynamic> get params =>
@@ -137,11 +137,11 @@ class SummonAutoparkAbortMessage extends SummonRequestMessage {
 }
 
 class SummonHomelinkTriggerMessage extends SummonRequestMessage {
-  final num latitude;
-  final num longitude;
-
   SummonHomelinkTriggerMessage(this.latitude, this.longitude)
       : super("homelink:cmd_trigger");
+
+  final num latitude;
+  final num longitude;
 
   @override
   Map<String, dynamic> get params =>
@@ -149,20 +149,12 @@ class SummonHomelinkTriggerMessage extends SummonRequestMessage {
 }
 
 class SummonUnknownMessage extends SummonMessage {
-  final Map<String, dynamic> content;
-
   SummonUnknownMessage(String type, this.content) : super(type);
+
+  final Map<String, dynamic> content;
 }
 
 class SummonClient {
-  final WebSocket socket;
-  final StreamController<SummonMessage> _messageController =
-      new StreamController<SummonMessage>();
-
-  Stream<SummonMessage> get onMessage => _messageController.stream;
-
-  Timer _heartbeat;
-
   SummonClient(this.socket) {
     socket.listen(_onData);
     socket.done.then((_) {
@@ -170,6 +162,14 @@ class SummonClient {
       _messageController.close();
     });
   }
+
+  final WebSocket socket;
+  final StreamController<SummonMessage> _messageController =
+      new StreamController<SummonMessage>();
+
+  Stream<SummonMessage> get onMessage => _messageController.stream;
+
+  Timer _heartbeat;
 
   void _onData(input) {
     if (input is String) {
@@ -256,11 +256,16 @@ class SummonClient {
     }
   }
 
+  void close() {
+    socket.close();
+  }
+
   static Future<SummonClient> connect(
       String email, String token, int vehicleId) async {
     var auth = const Base64Encoder.urlSafe()
         .convert(const Utf8Encoder().convert("${email}:${token}"));
 
+    // ignore: close_sinks
     var socket = await WebSocket.connect(
         "wss://streaming.vn.teslamotors.com/connect/${vehicleId}",
         headers: {"Authorization": "Basic ${auth}"});

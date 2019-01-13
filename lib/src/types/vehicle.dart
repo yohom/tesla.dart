@@ -1,6 +1,8 @@
 part of tesla;
 
 class Vehicle {
+  Vehicle(this.client, this.json);
+
   final TeslaClient client;
   final Map<String, dynamic> json;
 
@@ -26,8 +28,6 @@ class Vehicle {
   String get backseatToken => json["backseat_token"];
   String get backseatTokenUpdatedAt =>
       json["backseat_token_updated_at"].toString();
-
-  Vehicle(this.client, this.json);
 
   Future<AllVehicleState> getAllVehicleState() async {
     return await client.getAllVehicleState(id);
@@ -149,107 +149,80 @@ class Vehicle {
   }
 
   Future mediaTogglePlayback() async {
-    await sendCommand(
-      "media_toggle_playback"
-    );
+    await sendCommand("media_toggle_playback");
   }
 
   Future mediaNextTrack() async {
-    await sendCommand(
-      "media_next_track"
-    );
+    await sendCommand("media_next_track");
   }
 
   Future mediaPreviousTrack() async {
-    await sendCommand(
-      "media_prev_track"
-    );
+    await sendCommand("media_prev_track");
   }
 
   Future mediaPreviousFavorite() async {
-    await sendCommand(
-      "media_prev_fav"
-    );
+    await sendCommand("media_prev_fav");
   }
 
   Future mediaNextFavorite() async {
-    await sendCommand(
-      "media_next_fav"
-    );
+    await sendCommand("media_next_fav");
   }
 
   Future mediaVolumeUp() async {
-    await sendCommand(
-      "media_volume_up"
-    );
+    await sendCommand("media_volume_up");
   }
 
   Future mediaVolumeDown() async {
-    await sendCommand(
-      "media_volume_down"
-    );
+    await sendCommand("media_volume_down");
   }
 
   Future setValetMode({bool enabled: true, String pin: ""}) async {
-    await sendCommand(
-      "set_valet_mode",
-      params: {"on": enabled, "password": pin}
-    );
+    await sendCommand("set_valet_mode",
+        params: {"on": enabled, "password": pin});
   }
 
   Future resetValetPin() async {
-    await sendCommand(
-      "reset_valet_pin"
-    );
+    await sendCommand("reset_valet_pin");
   }
 
   Future setSteeringWheelHeater(bool enabled) async {
-    await sendCommand(
-      "remote_steering_wheel_heater_request",
-      params: {"on": enabled}
-    );
+    await sendCommand("remote_steering_wheel_heater_request",
+        params: {"on": enabled});
   }
 
   Future setSeatHeater(SeatHeater heater, int level) async {
-    await sendCommand(
-      "remote_seat_heater_request",
-      params: {"heater": heater.id, "level": level}
-    );
+    await sendCommand("remote_seat_heater_request",
+        params: {"heater": heater.id, "level": level});
   }
 
   Future setSpeedLimit(int mph) async {
-    await sendCommand(
-      "speed_limit_set_limit",
-      params: {"limit_mph": mph}
-    );
+    await sendCommand("speed_limit_set_limit", params: {"limit_mph": mph});
   }
 
   Future controlSunroof(bool vent) async {
-    await sendCommand(
-      "sun_roof_control",
-      params: {"state": vent ? "vent" : "close"}
-    );
+    await sendCommand("sun_roof_control",
+        params: {"state": vent ? "vent" : "close"});
   }
 
   Future speedLimitActivate({String pin: ""}) async {
-    await sendCommand(
-      "speed_limit_activate",
-      params: {"pin": pin}
-    );
+    await sendCommand("speed_limit_activate", params: {"pin": pin});
   }
 
   Future speedLimitDeactivate(String pin) async {
-    await sendCommand(
-      "speed_limit_deactivate",
-      params: {"pin": pin}
-    );
+    await sendCommand("speed_limit_deactivate", params: {"pin": pin});
   }
 
   Future speedLimitClearPin(String pin) async {
-    await sendCommand(
-      "speed_limit_clear_pin",
-      params: {"pin": pin}
-    );
+    await sendCommand("speed_limit_clear_pin", params: {"pin": pin});
+  }
+
+  Future scheduleSoftwareUpdate({int offsetSeconds: 0}) async {
+    await sendCommand("schedule_software_update",
+        params: {"offset_sec": offsetSeconds});
+  }
+
+  Future cancelSoftwareUpdate() async {
+    await sendCommand("cancel_software_update");
   }
 
   Future<SummonClient> summon() async {
@@ -261,18 +234,5 @@ class Vehicle {
         new VehicleStream(client.client, client.email, tokens.first, vehicleId);
     await stream.start();
     return stream;
-  }
-
-  Future scheduleSoftwareUpdate({int offsetSeconds: 0}) async {
-    await sendCommand(
-      "schedule_software_update",
-      params: {"offset_sec": offsetSeconds}
-    );
-  }
-
-  Future cancelSoftwareUpdate() async {
-    await sendCommand(
-      "cancel_software_update"
-    );
   }
 }
