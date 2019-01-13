@@ -8,7 +8,7 @@ TeslaClient client;
 
 Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
   try {
-    vehicle = await client.getAccountVehicle(vehicle.id);
+    vehicle = await client.getVehicle(vehicle.id);
 
     if (vehicle.state != "online") {
       schedulerTime = 10;
@@ -40,7 +40,7 @@ Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
 Future main() async {
   client = getTeslaClient();
 
-  for (var vehicle in await client.listAccountVehicles()) {
+  for (var vehicle in await client.listVehicles()) {
     new Future(() async {
       await _updateVehicle(vehicle);
     });

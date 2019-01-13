@@ -5,7 +5,7 @@ import 'package:tesla/tool.dart';
 Future main() async {
   var client = getTeslaClient();
 
-  for (var vehicle in await client.listAccountVehicles()) {
+  for (var vehicle in await client.listVehicles()) {
     await vehicle.wake();
     var state = await vehicle.getAllVehicleState();
     print("${state.displayName}:");

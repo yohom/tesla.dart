@@ -36,7 +36,7 @@ void _handleEvent(event) {
 }
 
 Future<SummonClient> _begin() async {
-  var vehicles = await client.listAccountVehicles();
+  var vehicles = await client.listVehicles();
   var vehicle = vehicles.first;
   await vehicle.wake();
   var summon = await vehicle.summon();
@@ -53,7 +53,7 @@ Future main(List<String> args) async {
       in stdin.transform(const Utf8Decoder()).transform(const LineSplitter())) {
     try {
       if (line == "forward") {
-        var vehicle = (await client.listAccountVehicles()).first;
+        var vehicle = (await client.listVehicles()).first;
         await vehicle.wake();
         var state = await vehicle.getAllVehicleState();
 
@@ -61,7 +61,7 @@ Future main(List<String> args) async {
             state.driveState.latitude, state.driveState.longitude));
         print("[Sent] Forward");
       } else if (line == "reverse") {
-        var vehicle = (await client.listAccountVehicles()).first;
+        var vehicle = (await client.listVehicles()).first;
         await vehicle.wake();
         var state = await vehicle.getAllVehicleState();
 

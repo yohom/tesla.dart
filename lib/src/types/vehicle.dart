@@ -226,13 +226,6 @@ class Vehicle {
   }
 
   Future<SummonClient> summon() async {
-    return await client.summon(tokens.first, vehicleId);
-  }
-
-  Future<VehicleStream> startStream() async {
-    var stream =
-        new VehicleStream(client.client, client.email, tokens.first, vehicleId);
-    await stream.start();
-    return stream;
+    return await client.summon(vehicleId, tokens.first);
   }
 }
