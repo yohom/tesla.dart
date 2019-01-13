@@ -1,4 +1,3 @@
-# Tesla
+# Tesla for Dart [![Build Status](https://travis-ci.org/SpinlockLabs/tesla.dart.svg?branch=master)](https://travis-ci.org/SpinlockLabs/tesla.dart)
 
-Control Tesla Vehicles in Dart
-
+Control and monitor Tesla Productions in Dart
