@@ -4,4 +4,4 @@ dart:
 - dev
 dart_task:
 - dartanalyzer: --fatal-warnings lib
-- dartfmt
+- dartfmt: sdk
