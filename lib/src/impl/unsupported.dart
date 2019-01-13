@@ -14,6 +14,12 @@ class TeslaClientImpl implements TeslaClient {
   String get password => _fail();
 
   @override
+  Map<String, dynamic> get token => _fail();
+
+  @override
+  bool get isAuthorized => _fail();
+
+  @override
   TeslaApiEndpoints get endpoints => _fail();
 
   @override

@@ -37,6 +37,10 @@ abstract class TeslaClient {
 
   String get email;
   String get password;
+
+  Map<String, dynamic> get token;
+  bool get isAuthorized;
+
   TeslaApiEndpoints get endpoints;
 
   Future login();

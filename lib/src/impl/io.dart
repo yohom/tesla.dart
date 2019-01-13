@@ -29,6 +29,9 @@ class TeslaClientImpl implements TeslaClient {
 
   Map<String, dynamic> _token;
 
+  @override
+  Map<String, dynamic> get token => _token;
+
   bool _isCurrentTokenValid(bool refreshable) {
     if (_token == null) {
       return false;
@@ -45,6 +48,9 @@ class TeslaClientImpl implements TeslaClient {
     }
     return true;
   }
+
+  @override
+  bool get isAuthorized => _isCurrentTokenValid(true);
 
   @override
   Future login() async {
