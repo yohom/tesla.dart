@@ -2,6 +2,8 @@ language: dart
 dart:
 - stable
 - dev
-dart_task:
-- dartanalyzer: --fatal-warnings lib
-- dartfmt: sdk
+sudo: false
+script:
+- set -e
+- dartanalyzer --fatal-infos --fatal-warnings .
+- dartfmt -n .
