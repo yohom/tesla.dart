@@ -6,7 +6,7 @@ import 'package:tesla/tool.dart';
 
 TeslaClient client;
 
-Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
+Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 10]) async {
   try {
     vehicle = await client.getVehicle(vehicle.id);
 
@@ -17,7 +17,7 @@ Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 30]) async {
       json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
       print(const JsonEncoder().convert(json));
     } else {
-      schedulerTime = 30;
+      schedulerTime = 10;
       var state = await vehicle.getAllVehicleState();
 
       if (state.driveState.shiftState == null) {
