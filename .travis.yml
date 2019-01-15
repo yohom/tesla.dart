@@ -8,5 +8,4 @@ dart:
 sudo: false
 script:
 - set -e
-- dartanalyzer --fatal-infos --fatal-warnings .
-- dartfmt -n .
+- dartanalyzer --fatal-warnings .
