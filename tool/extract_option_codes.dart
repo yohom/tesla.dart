@@ -5,6 +5,8 @@ import 'dart:io';
 const String teslaApiDocsOptionCodesMarkdownUrl =
     "https://raw.githubusercontent.com/timdorr/tesla-api/master/docs/vehicle/optioncodes.md";
 
+const JsonCodec _json = const JsonCodec();
+
 Future main() async {
   var client = new HttpClient();
   var request =
@@ -47,7 +49,7 @@ class OptionCode {
     var description = parts[1];
     print("  // ignore: constant_identifier_names");
     print(
-        "  static const OptionCode ${code} = const OptionCode(${json.encode(code)}, ${json.encode(description)});");
+        "  static const OptionCode ${code} = const OptionCode(${_json.encode(code)}, ${_json.encode(description)});");
     codes.add(code);
   }
 

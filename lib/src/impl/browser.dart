@@ -9,7 +9,7 @@ import 'common/http.dart';
 
 class TeslaClientImpl extends TeslaHttpClient {
   TeslaClientImpl(String email, String password, TeslaApiEndpoints endpoints)
-      :  super(email, password, endpoints);
+      : super(email, password, endpoints);
 
   @override
   Future<Map<String, dynamic>> sendHttpRequest(String url,
@@ -23,11 +23,13 @@ class TeslaClientImpl extends TeslaHttpClient {
       if (!isCurrentTokenValid(true)) {
         await login();
       }
-      request.setRequestHeader("Authorization", "Bearer ${token['access_token']}");
+      request.setRequestHeader(
+          "Authorization", "Bearer ${token['access_token']}");
     }
-    
+
     if (body != null) {
-      request.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+      request.setRequestHeader(
+          "Content-Type", "application/json; charset=utf-8");
       request.send(const JsonEncoder().convert(body));
     }
 
@@ -56,6 +58,5 @@ class TeslaClientImpl extends TeslaHttpClient {
   }
 
   @override
-  Future close() async {
-  }
+  Future close() async {}
 }
