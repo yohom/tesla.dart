@@ -1,7 +1,7 @@
 library tesla.impl.io;
 
 import 'dart:async';
-import 'dart:convert' hide json;
+import 'dart:convert';
 import 'dart:io';
 
 import '../../tesla.dart';
@@ -18,10 +18,11 @@ HttpClient _createHttpClient() {
 }
 
 class TeslaClientImpl extends TeslaHttpClient {
-  TeslaClientImpl(String email, String password, TeslaApiEndpoints endpoints,
+  TeslaClientImpl(String email, String password, TeslaAccessToken token,
+      TeslaApiEndpoints endpoints,
       {HttpClient client})
       : this.client = client == null ? _createHttpClient() : client,
-        super(email, password, endpoints);
+        super(email, password, token, endpoints);
 
   final HttpClient client;
 
@@ -31,6 +32,11 @@ class TeslaClientImpl extends TeslaHttpClient {
       String extract,
       Map<String, dynamic> body}) async {
     var uri = endpoints.ownersApiUrl.resolve(url);
+
+    if (endpoints.enableProxyMode) {
+      uri = uri.replace(queryParameters: {"__tesla": "api"});
+    }
+
     var request =
         body == null ? await client.getUrl(uri) : await client.postUrl(uri);
     request.headers.set("User-Agent", "Tesla.dart");
@@ -38,7 +44,7 @@ class TeslaClientImpl extends TeslaHttpClient {
       if (!isCurrentTokenValid(true)) {
         await login();
       }
-      request.headers.add("Authorization", "Bearer ${token['access_token']}");
+      request.headers.add("Authorization", "Bearer ${token.accessToken}");
     }
     if (body != null) {
       request.headers.contentType = _jsonContentType;
@@ -64,8 +70,11 @@ class TeslaClientImpl extends TeslaHttpClient {
 
   @override
   Future<SummonClient> summon(int vehicleId, String token) async {
-    return await SummonClientImpl.connect(
-        endpoints.summonConnectUrl.resolve(vehicleId.toString()), email, token);
+    var uri = endpoints.summonConnectUrl.resolve(vehicleId.toString());
+    if (endpoints.enableProxyMode) {
+      uri = uri.replace(queryParameters: {"__tesla": "summon"});
+    }
+    return await SummonClientImpl.connect(uri, email, token);
   }
 
   @override

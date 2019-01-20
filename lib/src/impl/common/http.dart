@@ -5,7 +5,7 @@ import 'dart:async';
 import '../../../tesla.dart';
 
 abstract class TeslaHttpClient implements TeslaClient {
-  TeslaHttpClient(this.email, this.password, this.endpoints);
+  TeslaHttpClient(this.email, this.password, this.token, this.endpoints);
 
   @override
   final String email;
@@ -16,24 +16,17 @@ abstract class TeslaHttpClient implements TeslaClient {
   @override
   final TeslaApiEndpoints endpoints;
 
-  Map<String, dynamic> _token;
-
   @override
-  Map<String, dynamic> get token => _token;
+  TeslaAccessToken token;
 
   bool isCurrentTokenValid(bool refreshable) {
-    if (_token == null) {
+    if (token == null) {
       return false;
     }
 
     if (refreshable) {
-      int createdAtMs = _token["created_at"];
-      int lifetimeMs = _token["expires_in"];
-      var time = new DateTime.fromMillisecondsSinceEpoch(createdAtMs);
-      var endOfLifetime = time.add(new Duration(milliseconds: lifetimeMs));
-      var differenceFromNow = endOfLifetime.difference(new DateTime.now());
-
-      return differenceFromNow.inSeconds >= -60;
+      return token.expiresAt.difference(new DateTime.now()).abs().inSeconds >=
+          60;
     }
     return true;
   }
@@ -44,7 +37,7 @@ abstract class TeslaHttpClient implements TeslaClient {
   @override
   Future login() async {
     if (!isCurrentTokenValid(false)) {
-      _token = await sendHttpRequest("/oauth/token",
+      var result = await sendHttpRequest("/oauth/token",
           body: {
             "grant_type": "password",
             "client_id": endpoints.clientId,
@@ -53,17 +46,21 @@ abstract class TeslaHttpClient implements TeslaClient {
             "password": password
           },
           needsToken: false);
+
+      token = new TeslaJsonAccessToken(result);
       return;
     }
 
-    _token = await sendHttpRequest("/oauth/token",
+    var result = await sendHttpRequest("/oauth/token",
         body: {
           "grant_type": "refresh_token",
           "client_id": endpoints.clientId,
           "client_secret": endpoints.clientSecret,
-          "refresh_token": _token["refresh_token"]
+          "refresh_token": token.refreshToken
         },
         needsToken: false);
+
+    token = new TeslaJsonAccessToken(result);
   }
 
   @override

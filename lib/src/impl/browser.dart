@@ -1,15 +1,16 @@
 library tesla.impl.browser;
 
 import 'dart:async';
-import 'dart:convert' hide json;
+import 'dart:convert';
 import 'dart:html';
 
 import '../../tesla.dart';
 import 'common/http.dart';
 
 class TeslaClientImpl extends TeslaHttpClient {
-  TeslaClientImpl(String email, String password, TeslaApiEndpoints endpoints)
-      : super(email, password, endpoints);
+  TeslaClientImpl(String email, String password, TeslaAccessToken token,
+      TeslaApiEndpoints endpoints)
+      : super(email, password, token, endpoints);
 
   @override
   Future<Map<String, dynamic>> sendHttpRequest(String url,
@@ -23,14 +24,15 @@ class TeslaClientImpl extends TeslaHttpClient {
       if (!isCurrentTokenValid(true)) {
         await login();
       }
-      request.setRequestHeader(
-          "Authorization", "Bearer ${token['access_token']}");
+      request.setRequestHeader("Authorization", "Bearer ${token.accessToken}");
     }
 
     if (body != null) {
       request.setRequestHeader(
           "Content-Type", "application/json; charset=utf-8");
       request.send(const JsonEncoder().convert(body));
+    } else {
+      request.send();
     }
 
     await request.onLoadEnd.first;

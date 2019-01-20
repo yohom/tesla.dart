@@ -16,14 +16,14 @@ Future main() async {
   print(r"""
 part of tesla;
 
-class OptionCode {
-  const OptionCode(this.code, this.description);
+class VehicleOptionCode {
+  const VehicleOptionCode(this.code, this.description);
 
   final String code;
   final String description;
 
   @override
-  String toString() => "OptionCode(${code}, ${description})";
+  String toString() => "VehicleOptionCode(${code}, ${description})";
 """);
 
   var codes = <String>[];
@@ -49,12 +49,12 @@ class OptionCode {
     var description = parts[1];
     print("  // ignore: constant_identifier_names");
     print(
-        "  static const OptionCode ${code} = const OptionCode(${_json.encode(code)}, ${_json.encode(description)});");
+        "  static const VehicleOptionCode ${code} = const VehicleOptionCode(${_json.encode(code)}, ${_json.encode(description)});");
     codes.add(code);
   }
 
   print("");
-  print("  static const List<OptionCode> values = const <OptionCode>[");
+  print("  static const List<VehicleOptionCode> values = const <VehicleOptionCode>[");
 
   while (codes.isNotEmpty) {
     var sub = codes.take(codes.length > 8 ? 8 : codes.length).join(", ");
@@ -66,7 +66,7 @@ class OptionCode {
 
   print("""
 
-  static OptionCode lookup(String code) {
+  static VehicleOptionCode lookup(String code) {
     return values.firstWhere((c) => c.code == code, orElse: () => null);
   }""");
 

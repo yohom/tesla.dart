@@ -15,11 +15,13 @@ class Vehicle implements TeslaObject {
   String get displayName => json["display_name"];
   String get rawOptionCodes => json["option_codes"];
   List<String> get optionCodes => rawOptionCodes.split(",");
-  List<OptionCode> get knownOptionCodes =>
-      optionCodes.map(OptionCode.lookup).where((item) => item != null).toList();
+  List<VehicleOptionCode> get knownOptionCodes => optionCodes
+      .map(VehicleOptionCode.lookup)
+      .where((item) => item != null)
+      .toList();
 
   List<String> get unknownOptionCodes =>
-      optionCodes.where((x) => OptionCode.lookup(x) == null).toList();
+      optionCodes.where((x) => VehicleOptionCode.lookup(x) == null).toList();
 
   String get color => json["color"];
   List<String> get tokens =>
