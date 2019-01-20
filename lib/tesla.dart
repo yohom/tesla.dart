@@ -1,13 +1,13 @@
 /// Tesla API Client
-/// 
+///
 /// ```
 /// import 'package:tesla/tesla.dart';
-/// 
+///
 /// /// List all vehicles on your account.
 /// listTeslaVehicles() async {
 ///   // Create a Tesla client with an account username and password.
 ///   var client = new TeslaClient("elon@tesla.com", "BoredElonMusk");
-/// 
+///
 ///   // List all of the vehicles on this account.
 ///   for (var vehicle in await client.listVehicles()) {
 ///     // Print the name of the vehicle and its current state.
