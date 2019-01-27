@@ -25,8 +25,8 @@ abstract class TeslaHttpClient implements TeslaClient {
     }
 
     if (refreshable) {
-      return token.expiresAt.difference(new DateTime.now()).abs().inSeconds >=
-          60;
+      var now = new DateTime.now();
+      return token.expiresAt.difference(now).abs().inSeconds >= 60;
     }
     return true;
   }
@@ -67,9 +67,9 @@ abstract class TeslaHttpClient implements TeslaClient {
   Future<List<Vehicle>> listVehicles() async {
     var vehicles = <Vehicle>[];
 
-    var result = await sendHttpRequest("/api/1/vehicles");
+    var result = await getJsonList("vehicles");
 
-    for (var item in result["response"]) {
+    for (var item in result) {
       vehicles.add(new Vehicle(this, item));
     }
 
@@ -78,66 +78,50 @@ abstract class TeslaHttpClient implements TeslaClient {
 
   @override
   Future<Vehicle> getVehicle(int id) async {
-    return new Vehicle(this,
-        await sendHttpRequest("/api/1/vehicles/${id}", extract: "response"));
+    return new Vehicle(this, await getJsonMap("vehicles/${id}"));
   }
 
   @override
   Future<AllVehicleState> getAllVehicleState(int id) async {
     return new AllVehicleState(
-        this,
-        await sendHttpRequest("/api/1/vehicles/${id}/vehicle_data",
-            extract: "response"));
+        this, await getJsonMap("vehicles/${id}/vehicle_data"));
   }
 
   @override
   Future<ChargeState> getChargeState(int id) async {
     return new ChargeState(
-        this,
-        await sendHttpRequest("/api/1/vehicles/${id}/data_request/charge_state",
-            extract: "response"));
+        this, await getJsonMap("vehicles/${id}/data_request/charge_state"));
   }
 
   @override
   Future<DriveState> getDriveState(int id) async {
     return new DriveState(
-        this,
-        await sendHttpRequest("/api/1/vehicles/${id}/data_request/drive_state",
-            extract: "response"));
+        this, await getJsonMap("vehicles/${id}/data_request/drive_state"));
   }
 
   @override
   Future<ClimateState> getClimateState(int id) async {
     return new ClimateState(
-        this,
-        await sendHttpRequest(
-            "/api/1/vehicles/${id}/data_request/climate_state",
-            extract: "response"));
+        this, await getJsonMap("vehicles/${id}/data_request/climate_state"));
   }
 
   @override
   Future<VehicleConfig> getVehicleConfig(int id) async {
     return new VehicleConfig(
-        this,
-        await sendHttpRequest(
-            "/api/1/vehicles/${id}/data_request/vehicle_config",
-            extract: "response"));
+        this, await getJsonMap("vehicles/${id}/data_request/vehicle_config"));
   }
 
   @override
   Future<GuiSettings> getGuiSettings(int id) async {
     return new GuiSettings(
-        this,
-        await sendHttpRequest("/api/1/vehicles/${id}/data_request/gui_settings",
-            extract: "response"));
+        this, await getJsonMap("vehicles/${id}/data_request/gui_settings"));
   }
 
   @override
   Future sendVehicleCommand(int vehicleId, String command,
       {Map<String, dynamic> params}) async {
-    var result = await sendHttpRequest(
-        "/api/1/vehicles/${vehicleId}/command/${command}",
-        body: params == null ? {} : params);
+    var result = await getJsonMap("vehicles/${vehicleId}/command/${command}",
+        body: params == null ? {} : params, extract: null);
     if (result["response"] == false) {
       var reason = result["reason"];
       if (reason is String && reason.trim().isNotEmpty) {
@@ -151,11 +135,28 @@ abstract class TeslaHttpClient implements TeslaClient {
   @override
   Future<Vehicle> wake(int id) async {
     return new Vehicle(
-        this,
-        await sendHttpRequest("/api/1/vehicles/${id}/wake_up",
-            body: {}, extract: "response"));
+        this, await getJsonMap("vehicles/${id}/wake_up", body: {}));
   }
 
-  Future<Map<String, dynamic>> sendHttpRequest(String url,
+  Future<Map<String, dynamic>> getJsonMap(String url,
+      {Map<String, dynamic> body,
+      String extract: "response",
+      bool standard: true}) async {
+    return (await sendHttpRequest(_apiUrl(url, standard),
+        body: body, extract: extract)) as Map<String, dynamic>;
+  }
+
+  Future<List<dynamic>> getJsonList(String url,
+      {Map<String, dynamic> body,
+      String extract: "response",
+      bool standard: true}) async {
+    return (await sendHttpRequest(_apiUrl(url, standard),
+        body: body, extract: extract)) as List<dynamic>;
+  }
+
+  Future<dynamic> sendHttpRequest(String url,
       {bool needsToken: true, String extract, Map<String, dynamic> body});
+
+  String _apiUrl(String path, bool standard) =>
+      standard ? "/api/1/${path}" : path;
 }

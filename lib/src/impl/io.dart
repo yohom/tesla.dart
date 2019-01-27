@@ -27,7 +27,7 @@ class TeslaClientImpl extends TeslaHttpClient {
   final HttpClient client;
 
   @override
-  Future<Map<String, dynamic>> sendHttpRequest(String url,
+  Future<dynamic> sendHttpRequest(String url,
       {bool needsToken: true,
       String extract,
       Map<String, dynamic> body}) async {
@@ -58,13 +58,12 @@ class TeslaClientImpl extends TeslaHttpClient {
     }
     var result = const JsonDecoder().convert(content);
 
-    if (result is! Map) {
-      throw new Exception("Invalid Tesla API response.\n${result}");
+    if (result is Map) {
+      if (extract != null) {
+        return result[extract];
+      }
     }
 
-    if (extract != null) {
-      return result[extract];
-    }
     return result;
   }
 
