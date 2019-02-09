@@ -54,7 +54,8 @@ class VehicleOptionCode {
   }
 
   print("");
-  print("  static const List<VehicleOptionCode> values = const <VehicleOptionCode>[");
+  print(
+      "  static const List<VehicleOptionCode> values = const <VehicleOptionCode>[");
 
   while (codes.isNotEmpty) {
     var sub = codes.take(codes.length > 8 ? 8 : codes.length).join(", ");
