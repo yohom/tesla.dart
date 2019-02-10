@@ -1,6 +1,7 @@
 library tesla.tool;
 
 import 'dart:io';
+import 'dart:convert';
 
 import 'tesla.dart';
 export 'tesla.dart';
@@ -19,14 +20,14 @@ const List<String> _passwordEnvVars = const <String>[
 
 String _getEnvKey(List<String> possible) {
   for (var key in possible) {
-    if (Platform.environment.containsKey(key) &&
-        Platform.environment[key].isNotEmpty) {
-      return Platform.environment[key];
-    }
-
     var dartEnvValue = new String.fromEnvironment(key);
     if (dartEnvValue != null) {
       return dartEnvValue;
+    }
+
+    if (Platform.environment.containsKey(key) &&
+        Platform.environment[key].isNotEmpty) {
+      return Platform.environment[key];
     }
   }
 
@@ -35,8 +36,17 @@ String _getEnvKey(List<String> possible) {
 }
 
 TeslaClient getTeslaClient() {
-  var email = _getEnvKey(_emailEnvVars);
+  var email = _getEnvKey(_emailEnvVars).trim();
   var password = _getEnvKey(_passwordEnvVars);
+
+  if (password.startsWith("base64:")) {
+    password =
+        const Utf8Decoder().convert(const Base64Decoder().convert(password, 7));
+  }
+
+  if (password.endsWith("\n")) {
+    password = password.substring(0, password.length - 1);
+  }
 
   return new TeslaClient(email, password);
 }
