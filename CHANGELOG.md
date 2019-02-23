@@ -18,3 +18,8 @@
 - Rename `OptionCode` to `VehicleOptionCode`.
 - Basic support for the browser (requires an API proxy).
 
+## v0.0.4
+
+- Rework HTTP implementation to share code more.
+- Allow using BASE64-encoded passwords for the standard tool API.
+- Fix a bug with typing.
