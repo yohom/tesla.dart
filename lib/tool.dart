@@ -35,9 +35,9 @@ String _getEnvKey(List<String> possible) {
       "Expected environment variable '${possible.first}' to be present.");
 }
 
-TeslaClient getTeslaClient() {
-  var email = _getEnvKey(_emailEnvVars).trim();
-  var password = _getEnvKey(_passwordEnvVars);
+TeslaClient getTeslaClient({String teslaUsername, String teslaPassword}) {
+  var email = teslaUsername ?? _getEnvKey(_emailEnvVars).trim();
+  var password = teslaPassword ?? _getEnvKey(_passwordEnvVars);
 
   if (password.startsWith("base64:")) {
     password =
