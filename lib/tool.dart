@@ -36,9 +36,7 @@ String _getEnvKey(List<String> possible) {
 }
 
 TeslaClient getTeslaClient(
-    {String teslaUsername,
-    String teslaPassword,
-    TeslaApiEndpoints endpoints}) {
+    {String teslaUsername, String teslaPassword, TeslaApiEndpoints endpoints}) {
   var email = teslaUsername ?? _getEnvKey(_emailEnvVars).trim();
   var password = teslaPassword ?? _getEnvKey(_passwordEnvVars);
 

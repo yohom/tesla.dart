@@ -7,4 +7,5 @@ Future main() async {
   for (var vehicle in await client.listVehicles()) {
     print("Vehicle ${vehicle.displayName} is ${vehicle.state}");
   }
+  client.close();
 }
