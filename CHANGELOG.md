@@ -1,5 +1,9 @@
 # Tesla.dart Changelog
 
+## v0.2.0
+
+- Drop support for Dart v1.x.x
+
 ## v0.1.2
 
 - More reworking, cleans up code and minor improvements.
