@@ -24,8 +24,7 @@ class Vehicle implements TeslaObject {
       optionCodes.where((x) => VehicleOptionCode.lookup(x) == null).toList();
 
   String get color => json["color"];
-  List<String> get tokens =>
-      (json["tokens"] as List)
+  List<String> get tokens => (json["tokens"] as List)
       .where((it) => it is String)
       .map((it) => it as String)
       .toList();

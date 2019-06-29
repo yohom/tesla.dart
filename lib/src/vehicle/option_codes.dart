@@ -87,6 +87,9 @@ class VehicleOptionCode {
   static const VehicleOptionCode APH3 =
       const VehicleOptionCode("APH3", "Autopilot 2.5 Hardware");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode APH4 =
+      const VehicleOptionCode("APH4", "Autopilot 3.0 Hardware");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode APPA =
       const VehicleOptionCode("APPA", "Autopilot 1.0 Hardware");
   // ignore: constant_identifier_names
@@ -195,6 +198,9 @@ class VehicleOptionCode {
   static const VehicleOptionCode COUS =
       const VehicleOptionCode("COUS", "Country: United States");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode CONL =
+      const VehicleOptionCode("CONL", "Country: Netherlands");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode CW00 =
       const VehicleOptionCode("CW00", "No Cold Weather Package");
   // ignore: constant_identifier_names
@@ -294,6 +300,9 @@ class VehicleOptionCode {
   static const VehicleOptionCode IDPB =
       const VehicleOptionCode("IDPB", "Piano Black Decor");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode IN3BB =
+      const VehicleOptionCode("IN3BB", "All Black Partial Premium Interior");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode IN3PB =
       const VehicleOptionCode("IN3PB", "All Black Premium Interior");
   // ignore: constant_identifier_names
@@ -341,6 +350,8 @@ class VehicleOptionCode {
   // ignore: constant_identifier_names
   static const VehicleOptionCode LLP1 = const VehicleOptionCode("LLP1", "LLP1");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode LLP2 = const VehicleOptionCode("LLP2", "LLP2");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode LP01 =
       const VehicleOptionCode("LP01", "Premium Interior Lighting");
   // ignore: constant_identifier_names
@@ -364,6 +375,8 @@ class VehicleOptionCode {
   // ignore: constant_identifier_names
   static const VehicleOptionCode LT5P = const VehicleOptionCode("LT5P", "LT5P");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode LT6P = const VehicleOptionCode("LT6P", "LT6P");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode ME02 =
       const VehicleOptionCode("ME02", "Memory Seats");
   // ignore: constant_identifier_names
@@ -376,8 +389,16 @@ class VehicleOptionCode {
   static const VehicleOptionCode MI02 =
       const VehicleOptionCode("MI02", "2017 Production Refresh");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode MI03 = const VehicleOptionCode("MI03",
+      "201? Production Refresh (found on Model X ordered 11/2018 delivered 3/2019)");
+  // ignore: constant_identifier_names
+  static const VehicleOptionCode MT301 =
+      const VehicleOptionCode("MT301", "Standard Range Plus Rear-Wheel Drive");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode MT305 =
       const VehicleOptionCode("MT305", "Mid Range Rear-Wheel Drive");
+  // ignore: constant_identifier_names
+  static const VehicleOptionCode OSSB = const VehicleOptionCode("OSSB", "OSSB");
   // ignore: constant_identifier_names
   static const VehicleOptionCode PA00 =
       const VehicleOptionCode("PA00", "No Paint Armor");
@@ -444,6 +465,9 @@ class VehicleOptionCode {
   // ignore: constant_identifier_names
   static const VehicleOptionCode PPTI =
       const VehicleOptionCode("PPTI", "Titanium Metallic");
+  // ignore: constant_identifier_names
+  static const VehicleOptionCode PRM30 =
+      const VehicleOptionCode("PRM30", "Partial Premium Interior");
   // ignore: constant_identifier_names
   static const VehicleOptionCode PRM31 =
       const VehicleOptionCode("PRM31", "Premium Interior");
@@ -625,6 +649,9 @@ class VehicleOptionCode {
   static const VehicleOptionCode UTSB =
       const VehicleOptionCode("UTSB", "Dark Headliner");
   // ignore: constant_identifier_names
+  static const VehicleOptionCode W38B =
+      const VehicleOptionCode("W38B", "18\" Aero Wheels");
+  // ignore: constant_identifier_names
   static const VehicleOptionCode W39B =
       const VehicleOptionCode("W39B", "19\" Sport Wheels");
   // ignore: constant_identifier_names
@@ -774,6 +801,7 @@ class VehicleOptionCode {
     APH0,
     APH2,
     APH3,
+    APH4,
     APPA,
     APPB,
     AU00,
@@ -810,6 +838,7 @@ class VehicleOptionCode {
     COL2,
     COL3,
     COUS,
+    CONL,
     CW00,
     CW02,
     DA00,
@@ -844,6 +873,7 @@ class VehicleOptionCode {
     IDOG,
     IDLW,
     IDPB,
+    IN3BB,
     IN3PB,
     INBBW,
     INBFP,
@@ -860,6 +890,7 @@ class VehicleOptionCode {
     IX00,
     IX01,
     LLP1,
+    LLP2,
     LP01,
     LT00,
     LT01,
@@ -870,11 +901,15 @@ class VehicleOptionCode {
     LT4W,
     LT5C,
     LT5P,
+    LT6P,
     ME02,
     MI00,
     MI01,
     MI02,
+    MI03,
+    MT301,
     MT305,
+    OSSB,
     PA00,
     PBCW,
     PBSB,
@@ -897,6 +932,7 @@ class VehicleOptionCode {
     PPSR,
     PPSW,
     PPTI,
+    PRM30,
     PRM31,
     PS00,
     PS01,
@@ -959,6 +995,7 @@ class VehicleOptionCode {
     UTAW,
     UTPB,
     UTSB,
+    W38B,
     W39B,
     WT20,
     WTAS,

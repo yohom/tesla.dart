@@ -6,6 +6,7 @@ Future main() async {
   var client = getTeslaClient();
 
   for (var vehicle in await client.listVehicles()) {
+    await vehicle.wake();
     await vehicle.scheduleSoftwareUpdate();
   }
 
