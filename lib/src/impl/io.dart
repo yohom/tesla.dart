@@ -51,7 +51,8 @@ class TeslaClientImpl extends TeslaHttpClient {
       request.write(const JsonEncoder().convert(body));
     }
     var response = await request.close();
-    var content = await response.transform(const Utf8Decoder()).join();
+    var content =
+        await response.cast<List<int>>().transform(const Utf8Decoder()).join();
     if (response.statusCode != 200) {
       throw new Exception(
           "Failed to perform action. (Status Code: ${response.statusCode})\n${content}");

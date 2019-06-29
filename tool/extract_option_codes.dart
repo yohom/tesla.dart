@@ -29,6 +29,7 @@ class VehicleOptionCode {
   var codes = <String>[];
 
   await for (var line in response
+      .cast<List<int>>()
       .transform(const Utf8Decoder())
       .transform(const LineSplitter())) {
     if (!line.startsWith("| ")) {
