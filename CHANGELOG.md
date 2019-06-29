@@ -3,6 +3,7 @@
 ## v0.2.0
 
 - Drop support for Dart v1.x.x
+- Add `setSentryMode` command, and support for `isSentryMode` getter.
 
 ## v0.1.2
 

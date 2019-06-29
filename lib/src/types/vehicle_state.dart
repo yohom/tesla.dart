@@ -36,9 +36,11 @@ class VehicleState implements TeslaObject {
   String get vehicleName => json["vehicle_name"];
   bool get isValetMode => json["valet_mode"];
   bool get isValetPinNeeded => json["valet_pin_needed"];
+  bool get isSentryMode => json["sentry_mode"];
 
   SpeedLimitMode get speedLimitMode =>
       new SpeedLimitMode(client, json["speed_limit_mode"]);
+
   MediaState get mediaState => new MediaState(client, json["media_state"]);
 }
 

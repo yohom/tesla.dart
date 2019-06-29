@@ -147,6 +147,10 @@ class Vehicle implements TeslaObject {
         params: {"driver_temp": driver, "passenger_temp": passenger});
   }
 
+  Future setSentryMode(bool sentryModeOn) async {
+    await sendCommand("set_sentry_mode", params: {"on": sentryModeOn});
+  }
+
   Future sendNavigationRequest(String input) async {
     await sendCommand("navigation_request", params: {
       "type": "share_ext_content_raw",
