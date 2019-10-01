@@ -14,10 +14,23 @@ class VehicleState implements TeslaObject {
   String get autoparkStyle => json["autopark_style"];
   bool get isCalendarEnabled => json["calendar_enabled"];
   String get carVersion => json["car_version"];
-  int get centerDisplayState => json["center_display_state"];
-  int get df => json["df"];
-  int get dr => json["dr"];
-  int get ft => json["ft"];
+  
+  bool get centerDisplayActive => json["center_display_state"] != 0;
+  
+  bool get driverSideDoorOpen => json["df"] != 0;
+  bool get passengerSideDoorOpen => json["pf"] != 0;
+
+  bool get driverSideRearDoorOpen => json["dr"] != 0;
+  bool get passengerSideRearDoorOpen => json["pr"] != 0;
+
+  bool get frontTrunkOpen => json["ft"] != 0;
+  bool get rearTrunkOpen => json["rt"] != 0;
+
+  int get homelinkDeviceCount => json["homelink_device_count"];
+
+  bool get isSmartSummonAvailable => json["smart_summon_available"];
+  bool get isSummonStandbyModeEnabled => json["summon_standby_mode_enabled"];
+
   bool get isHomeLinkNearby => json["homelink_nearby"];
   bool get isUserPresent => json["is_user_present"];
   String get lastAutoparkError => json["last_autopark_error"];
@@ -25,11 +38,8 @@ class VehicleState implements TeslaObject {
   num get odometer => json["odometer"];
   bool get isNotificationsSupported => json["notifications_supported"];
   bool get isParsedCalendarSupported => json["parsed_calendar_supported"];
-  int get pf => json["pf"];
-  int get pr => json["pr"];
   bool get isRemoteStart => json["remote_start"];
   bool get isRemoteStartSupported => json["remote_start_supported"];
-  int get rt => json["rt"];
   int get timestamp => json["timestamp"];
   DateTime get timestampTime =>
       new DateTime.fromMillisecondsSinceEpoch(timestamp);

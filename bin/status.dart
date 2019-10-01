@@ -9,10 +9,12 @@ Future main() async {
   for (var vehicle in await client.listVehicles()) {
     await vehicle.wake();
     var state = await vehicle.getAllVehicleState();
+    var vehicleState = state.vehicleState;
+
     print("${state.displayName}:");
     print("  VIN: ${state.vin}");
     print("  State: ${state.state}");
-    print("  Software Version: ${state.vehicleState.carVersion}");
+    print("  Software Version: ${vehicleState.carVersion}");
     print(
         "  Location: ${state.driveState.latitude} LAT, ${state.driveState.longitude} LONG");
     print("  Tokens: ${state.tokens}");
@@ -41,6 +43,15 @@ Future main() async {
     } else {
       print("  Option Codes: ${state.knownOptionCodes}");
     }
+  
+    print("  Smart Summon Available: ${vehicleState.isSmartSummonAvailable}");
+    print("  HomeLink Device Count: ${vehicleState.homelinkDeviceCount}");
+    print("  Doors Open:");
+    print("    Driver Side: ${vehicleState.driverSideDoorOpen}");
+    print("    Driver Side Rear: ${vehicleState.driverSideRearDoorOpen}");
+    print("    Passenger Side: ${vehicleState.passengerSideDoorOpen}");
+    print("    Passenger Side Rear: ${vehicleState.passengerSideRearDoorOpen}");
+    
   }
 
   client.close();

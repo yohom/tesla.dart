@@ -1,6 +1,6 @@
 # Tesla.dart License
 
-```
+```text
 The MIT License (MIT)
 
 Copyright (c) 2018 Spinlock Labs

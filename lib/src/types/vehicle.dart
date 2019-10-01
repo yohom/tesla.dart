@@ -237,6 +237,10 @@ class Vehicle implements TeslaObject {
     await sendCommand("cancel_software_update");
   }
 
+  Future triggerHomeLink() async {
+    await sendCommand("trigger_homelink");
+  }
+
   Future<SummonClient> summon() async {
     return await client.summon(vehicleId, tokens.first);
   }
