@@ -14,9 +14,9 @@ class VehicleState implements TeslaObject {
   String get autoparkStyle => json["autopark_style"];
   bool get isCalendarEnabled => json["calendar_enabled"];
   String get carVersion => json["car_version"];
-  
+
   bool get centerDisplayActive => json["center_display_state"] != 0;
-  
+
   bool get driverSideDoorOpen => json["df"] != 0;
   bool get passengerSideDoorOpen => json["pf"] != 0;
 

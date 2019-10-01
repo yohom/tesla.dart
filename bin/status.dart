@@ -43,7 +43,7 @@ Future main() async {
     } else {
       print("  Option Codes: ${state.knownOptionCodes}");
     }
-  
+
     print("  Smart Summon Available: ${vehicleState.isSmartSummonAvailable}");
     print("  HomeLink Device Count: ${vehicleState.homelinkDeviceCount}");
     print("  Doors Open:");
@@ -51,7 +51,6 @@ Future main() async {
     print("    Driver Side Rear: ${vehicleState.driverSideRearDoorOpen}");
     print("    Passenger Side: ${vehicleState.passengerSideDoorOpen}");
     print("    Passenger Side Rear: ${vehicleState.passengerSideRearDoorOpen}");
-    
   }
 
   client.close();
