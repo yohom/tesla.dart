@@ -2,6 +2,14 @@
 
 ## v0.3.0
 
+The v10 update!
+
+- Support for triggering the HomeLink.
+- Doors, frunk, and trunk open states are now available.
+- Add `homelinkDeviceCount` getter to `VehicleState`.
+- Add `isSmartSummonAvailable` getter to `VehicleState`.
+- Add `centerDisplayActive` getter to `VehicleState`.
+
 ## v0.2.0
 
 - Drop support for Dart v1.x.x

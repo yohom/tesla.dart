@@ -46,6 +46,7 @@ Future main() async {
 
     print("  Smart Summon Available: ${vehicleState.isSmartSummonAvailable}");
     print("  HomeLink Device Count: ${vehicleState.homelinkDeviceCount}");
+    print("  Center Display Active: ${vehicleState.centerDisplayActive}");
     print("  Doors Open:");
     print("    Driver Side: ${vehicleState.driverSideDoorOpen}");
     print("    Driver Side Rear: ${vehicleState.driverSideRearDoorOpen}");
