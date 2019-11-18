@@ -1,10 +1,12 @@
 image: alpine/edge
-sources:
-- https://github.com/SpinlockLabs/tesla.dart.git
 secrets:
 - 90027ee7-6514-4db8-be54-8923ad89ce63
+environment:
+   GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 tasks:
+- clone: |
+    git clone --bare https://github.com/SpinlockLabs/tesla.dart.git repository
 - push: |
-    cd tesla.dart
+    cd repository
     git remote add srht git@git.sr.ht:~kendfinger/tesla.dart
-    GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push srht --mirror
+    git push srht --mirror
