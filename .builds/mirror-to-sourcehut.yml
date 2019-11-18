@@ -3,7 +3,6 @@ sources:
 - https://github.com/SpinlockLabs/tesla.dart.git
 secrets:
 - 90027ee7-6514-4db8-be54-8923ad89ce63
-
 tasks:
 - push: |
     cd tesla.dart
