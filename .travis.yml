@@ -11,3 +11,4 @@ sudo: false
 script:
 - set -e
 - dartanalyzer --fatal-warnings .
+- dartfmt -n --set-exit-if-changed .
