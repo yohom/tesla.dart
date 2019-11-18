@@ -8,7 +8,8 @@ Future main() async {
   for (var vehicle in await client.listVehicles()) {
     await vehicle.wake();
     var drive = await vehicle.getDriveState();
-    await vehicle.triggerHomeLink(latitude: drive.latitude, longitude: drive.longitude);
+    await vehicle.triggerHomeLink(
+        latitude: drive.latitude, longitude: drive.longitude);
   }
 
   client.close();

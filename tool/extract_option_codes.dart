@@ -27,6 +27,7 @@ class VehicleOptionCode {
 """);
 
   var codes = <String>[];
+  var seen = <String, String>{};
 
   await for (var line in response
       .cast<List<int>>()
@@ -48,10 +49,18 @@ class VehicleOptionCode {
 
     var code = parts[0];
     var description = parts[1];
+
+    if (seen.containsKey(code)) {
+      if (seen[code] == description) {
+        continue;
+      }
+      code = "${code}_0";
+    }
     print("  // ignore: constant_identifier_names");
     print(
         "  static const VehicleOptionCode ${code} = const VehicleOptionCode(${_json.encode(code)}, ${_json.encode(description)});");
     codes.add(code);
+    seen[code] = description;
   }
 
   print("");

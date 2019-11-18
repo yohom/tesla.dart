@@ -238,10 +238,8 @@ class Vehicle implements TeslaObject {
   }
 
   Future triggerHomeLink({num latitude: 0.0, num longitude: 0.0}) async {
-    await sendCommand("trigger_homelink", params: {
-      "lat": latitude,
-      "lon": longitude
-    });
+    await sendCommand("trigger_homelink",
+        params: {"lat": latitude, "lon": longitude});
   }
 
   Future<SummonClient> summon() async {
