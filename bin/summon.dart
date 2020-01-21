@@ -7,7 +7,7 @@ import 'package:tesla/tool.dart';
 TeslaClient client;
 SummonVehicleLocationMessage location;
 
-void _handleEvent(event) {
+void _handleEvent(SummonMessage event) {
   if (event is SummonAutoparkErrorMessage) {
     print("[Autopark Error] ${event.errorType}");
   } else if (event is SummonAutoparkCommandResultMessage) {
@@ -28,6 +28,10 @@ void _handleEvent(event) {
     return;
   } else if (event is SummonVehicleLocationMessage) {
     print("[Vehicle Location] ${event.latitude}, ${event.longitude}");
+  } else if (event is SummonVisualizationMessage) {
+    print("[Visualization] ${event.path.length} points");
+  } else if (event is SummonUnknownMessage) {
+    print("[Unknown] ${event.type}: ${event.content}");
   } else {
     return;
   }

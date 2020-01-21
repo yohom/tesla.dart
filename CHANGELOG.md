@@ -9,6 +9,7 @@ The v10 update!
 - Add `homelinkDeviceCount` getter to `VehicleState`.
 - Add `isSmartSummonAvailable` getter to `VehicleState`.
 - Add `centerDisplayActive` getter to `VehicleState`.
+- Add `SummonVisualizationMessage` to allow drawing of the summon visualization.
 
 ## v0.2.0
 

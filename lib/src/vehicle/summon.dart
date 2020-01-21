@@ -48,6 +48,12 @@ class SummonAutoparkCommandResultMessage extends SummonMessage {
   final bool result;
 }
 
+class SummonVisualizationMessage extends SummonMessage {
+  SummonVisualizationMessage({this.path}) : super("autopark:smart_summon_viz");
+
+  final List<double> path;
+}
+
 class SummonAutoparkErrorMessage extends SummonMessage {
   SummonAutoparkErrorMessage({this.errorType}) : super("autopark:error");
 
