@@ -72,7 +72,8 @@ abstract class SummonCommonClient implements SummonClient {
           timestamp:
               new DateTime.fromMillisecondsSinceEpoch(message["timestamp"]));
     } else if (msgType == "autopark:smart_summon_viz") {
-      event = new SummonVisualizationMessage(path: (message["path"] as List<dynamic>).cast<double>());
+      event = new SummonVisualizationMessage(
+          path: (message["path"] as List<dynamic>).cast<double>());
     } else {
       event = new SummonUnknownMessage(msgType, message);
     }

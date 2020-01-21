@@ -135,6 +135,31 @@ class SummonAutoparkReverseMessage extends SummonRequestMessage {
       {"latitude": latitude, "longitude": longitude};
 }
 
+class SummonFindMeRequestMessage extends SummonRequestMessage {
+  SummonFindMeRequestMessage(
+      {this.latitude,
+      this.longitude,
+      this.accuracy,
+      this.goalLatitude,
+      this.goalLongitude})
+      : super("autopark:cmd_find_me");
+
+  final num latitude;
+  final num longitude;
+  final num accuracy;
+  final num goalLatitude;
+  final num goalLongitude;
+
+  @override
+  Map<String, dynamic> get params => {
+        "latitude": latitude,
+        "longitude": longitude,
+        "accuracy": accuracy,
+        "goal_latitude": goalLatitude,
+        "goal_longitude": goalLongitude
+      };
+}
+
 class SummonAutoparkAbortMessage extends SummonRequestMessage {
   SummonAutoparkAbortMessage() : super("autopark:cmd_abort");
 
