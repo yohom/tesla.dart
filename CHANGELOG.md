@@ -2,6 +2,9 @@
 
 ## v0.4.0
 
+- Helper library: Add support for `TESLA_CREDENTIALS_PATH` environment variable
+  to specify a path to a JSON credentials file.
+
 ## v0.3.0
 
 The v10 update!
