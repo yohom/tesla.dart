@@ -5,7 +5,7 @@ environment:
    GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 tasks:
 - clone: |
-    git clone --bare https://github.com/SpinlockLabs/tesla.dart.git repository
+    git clone --bare https://github.com/TeslaToolkit/tesla.dart.git repository
 - push: |
     cd repository
     git remote add srht git@git.sr.ht:~kendfinger/tesla.dart
