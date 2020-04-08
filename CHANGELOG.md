@@ -1,5 +1,7 @@
 # Tesla.dart Changelog
 
+## v0.5.0
+
 ## v0.4.0
 
 - Helper library: Add support for `TESLA_CREDENTIALS_PATH` environment variable
