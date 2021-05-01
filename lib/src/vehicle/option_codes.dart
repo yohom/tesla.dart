@@ -1,4 +1,4 @@
-part of tesla;
+import 'package:collection/collection.dart' show IterableExtension;
 
 class VehicleOptionCode {
   const VehicleOptionCode(this.code, this.description);
@@ -1513,7 +1513,7 @@ class VehicleOptionCode {
     YFFC
   ];
 
-  static VehicleOptionCode lookup(String code) {
-    return values.firstWhere((c) => c.code == code, orElse: () => null);
+  static VehicleOptionCode? lookup(String code) {
+    return values.firstWhereOrNull((c) => c.code == code);
   }
 }
