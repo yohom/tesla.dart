@@ -1,4 +1,4 @@
-import 'package:collection/collection.dart' show IterableExtension;
+part of tesla;
 
 class VehicleOptionCode {
   const VehicleOptionCode(this.code, this.description);
