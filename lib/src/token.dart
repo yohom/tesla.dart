@@ -6,7 +6,7 @@ abstract class TeslaAccessToken {
   DateTime get createdAt;
   DateTime get expiresAt;
 
-  bool get isExpired => expiresAt.isAfter(new DateTime.now());
+  bool get isExpired => expiresAt.isAfter(DateTime.now());
 }
 
 class TeslaJsonAccessToken extends TeslaAccessToken {
@@ -27,9 +27,8 @@ class TeslaJsonAccessToken extends TeslaAccessToken {
 
   @override
   DateTime get createdAt =>
-      new DateTime.fromMillisecondsSinceEpoch(createdAtEpochSeconds! * 1000);
+      DateTime.fromMillisecondsSinceEpoch(createdAtEpochSeconds! * 1000);
 
   @override
-  DateTime get expiresAt =>
-      createdAt.add(new Duration(seconds: expiresInSeconds!));
+  DateTime get expiresAt => createdAt.add(Duration(seconds: expiresInSeconds!));
 }

@@ -8,7 +8,7 @@ const String teslaApiDocsOptionCodesMarkdownUrl =
 const JsonCodec _json = const JsonCodec();
 
 Future main() async {
-  var client = new HttpClient();
+  var client = HttpClient();
   var request =
       await client.getUrl(Uri.parse(teslaApiDocsOptionCodesMarkdownUrl));
   var response = await request.close();

@@ -13,8 +13,8 @@ Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 10]) async {
     if (vehicle.state != "online") {
       schedulerTime = 10;
 
-      var json = new Map<String, dynamic>.from(vehicle.json!);
-      json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
+      var json = Map<String, dynamic>.from(vehicle.json!);
+      json["timestamp"] = DateTime.now().millisecondsSinceEpoch;
       print(const JsonEncoder().convert(json));
     } else {
       schedulerTime = 10;
@@ -24,15 +24,15 @@ Future _updateVehicle(Vehicle vehicle, [int schedulerTime = 10]) async {
         schedulerTime = 500;
       }
 
-      var json = new Map<String, dynamic>.from(state.json!);
-      json["timestamp"] = new DateTime.now().millisecondsSinceEpoch;
+      var json = Map<String, dynamic>.from(state.json!);
+      json["timestamp"] = DateTime.now().millisecondsSinceEpoch;
       print(const JsonEncoder().convert(json));
     }
   } catch (e, stack) {
     stderr.writeln("ERROR: ${e}\n${stack}");
   }
 
-  new Timer(new Duration(seconds: schedulerTime), () {
+  Timer(Duration(seconds: schedulerTime), () {
     _updateVehicle(vehicle, schedulerTime);
   });
 }
@@ -41,7 +41,7 @@ Future main() async {
   client = getTeslaClient();
 
   for (var vehicle in await client.listVehicles()) {
-    new Future(() async {
+    Future(() async {
       await _updateVehicle(vehicle);
     });
   }

@@ -18,7 +18,7 @@ class TeslaClientImpl extends TeslaHttpClient {
       String? extract,
       Map<String, dynamic>? body}) async {
     var uri = endpoints.ownersApiUrl.resolve(url);
-    var request = new HttpRequest();
+    var request = HttpRequest();
     request.open(body == null ? "GET" : "POST", uri.toString());
     if (needsToken) {
       if (!isCurrentTokenValid(true)) {
@@ -39,7 +39,7 @@ class TeslaClientImpl extends TeslaHttpClient {
 
     var content = request.responseText!;
     if (request.status != 200) {
-      throw new Exception(
+      throw Exception(
           "Failed to perform action. (Status Code: ${request.status})\n${content}");
     }
     var result = const JsonDecoder().convert(content);

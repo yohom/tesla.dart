@@ -1,10 +1,18 @@
 part of tesla;
 
 abstract class TeslaClient {
-  factory TeslaClient(String email, String password,
-      {TeslaApiEndpoints? endpoints, TeslaAccessToken? token}) {
-    return new TeslaClientImpl(email, password, token,
-        endpoints == null ? new TeslaApiEndpoints.standard() : endpoints);
+  factory TeslaClient(
+    String email,
+    String password, {
+    TeslaApiEndpoints? endpoints,
+    TeslaAccessToken? token,
+  }) {
+    return TeslaClientImpl(
+      email,
+      password,
+      token,
+      endpoints == null ? TeslaApiEndpoints.standard() : endpoints,
+    );
   }
 
   String get email;

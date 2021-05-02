@@ -2,7 +2,7 @@ part of tesla;
 
 abstract class TeslaApiEndpoints {
   factory TeslaApiEndpoints.standard() {
-    return new TeslaStandardApiEndpoints();
+    return TeslaStandardApiEndpoints();
   }
 
   Uri get ownersApiUrl;

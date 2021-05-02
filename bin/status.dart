@@ -21,8 +21,8 @@ Future main() async {
 
     if (stdout.hasTerminal) {
       print("  Option Codes");
-      var buffer = new StringBuffer();
-      var codes = new List<VehicleOptionCode>.from(vehicle.knownOptionCodes);
+      var buffer = StringBuffer();
+      var codes = List<VehicleOptionCode>.from(vehicle.knownOptionCodes);
       while (codes.isNotEmpty) {
         var code = codes.removeAt(0);
         var content = "(${code.code}) ${code.description}";

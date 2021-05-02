@@ -41,17 +41,16 @@ class VehicleState implements TeslaObject {
   bool? get isRemoteStart => json!["remote_start"];
   bool? get isRemoteStartSupported => json!["remote_start_supported"];
   int? get timestamp => json!["timestamp"];
-  DateTime get timestampTime =>
-      new DateTime.fromMillisecondsSinceEpoch(timestamp!);
+  DateTime get timestampTime => DateTime.fromMillisecondsSinceEpoch(timestamp!);
   String? get vehicleName => json!["vehicle_name"];
   bool? get isValetMode => json!["valet_mode"];
   bool? get isValetPinNeeded => json!["valet_pin_needed"];
   bool? get isSentryMode => json!["sentry_mode"];
 
   SpeedLimitMode get speedLimitMode =>
-      new SpeedLimitMode(client, json!["speed_limit_mode"]);
+      SpeedLimitMode(client, json!["speed_limit_mode"]);
 
-  MediaState get mediaState => new MediaState(client, json!["media_state"]);
+  MediaState get mediaState => MediaState(client, json!["media_state"]);
 }
 
 class VehicleConfig implements TeslaObject {
@@ -88,6 +87,5 @@ class VehicleConfig implements TeslaObject {
   String? get wheelType => json!["wheel_type"];
 
   int? get timestamp => json!["timestamp"];
-  DateTime get timestampTime =>
-      new DateTime.fromMillisecondsSinceEpoch(timestamp!);
+  DateTime get timestampTime => DateTime.fromMillisecondsSinceEpoch(timestamp!);
 }

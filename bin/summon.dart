@@ -61,7 +61,7 @@ Future main(List<String> args) async {
         await vehicle.wake();
         var state = await vehicle.getAllVehicleState();
 
-        summon.send(new SummonAutoparkForwardMessage(
+        summon.send(SummonAutoparkForwardMessage(
             state.driveState.latitude, state.driveState.longitude));
         print("[Sent] Forward");
       } else if (line == "reverse") {
@@ -69,11 +69,11 @@ Future main(List<String> args) async {
         await vehicle.wake();
         var state = await vehicle.getAllVehicleState();
 
-        summon.send(new SummonAutoparkReverseMessage(
+        summon.send(SummonAutoparkReverseMessage(
             state.driveState.latitude, state.driveState.longitude));
         print("[Sent] Reverse");
       } else if (line == "abort") {
-        summon.send(new SummonAutoparkAbortMessage());
+        summon.send(SummonAutoparkAbortMessage());
         print("[Sent] Abort");
       }
     } catch (e) {

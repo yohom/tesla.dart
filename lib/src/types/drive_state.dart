@@ -10,7 +10,7 @@ class DriveState implements TeslaObject {
   final Map<String, dynamic>? json;
 
   int? get gpsAsOf => json!["gps_as_of"];
-  DateTime get gpsAsOfTime => new DateTime.fromMillisecondsSinceEpoch(gpsAsOf!);
+  DateTime get gpsAsOfTime => DateTime.fromMillisecondsSinceEpoch(gpsAsOf!);
 
   num? get heading => json!["heading"];
   num? get latitude => json!["latitude"];
@@ -26,6 +26,5 @@ class DriveState implements TeslaObject {
   num? get speed => json!["speed"];
 
   int? get timestamp => json!["timestamp"];
-  DateTime get timestampTime =>
-      new DateTime.fromMillisecondsSinceEpoch(timestamp!);
+  DateTime get timestampTime => DateTime.fromMillisecondsSinceEpoch(timestamp!);
 }
