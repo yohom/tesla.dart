@@ -17,7 +17,7 @@ abstract class TeslaHttpClient implements TeslaClient {
   final TeslaApiEndpoints endpoints;
 
   @override
-  TeslaAccessToken token;
+  TeslaAccessToken? token;
 
   bool isCurrentTokenValid(bool refreshable) {
     if (token == null) {
@@ -26,7 +26,7 @@ abstract class TeslaHttpClient implements TeslaClient {
 
     if (refreshable) {
       var now = DateTime.now();
-      return token.expiresAt.difference(now).abs().inSeconds >= 60;
+      return token!.expiresAt.difference(now).abs().inSeconds >= 60;
     }
     return true;
   }
@@ -56,7 +56,7 @@ abstract class TeslaHttpClient implements TeslaClient {
           "grant_type": "refresh_token",
           "client_id": endpoints.clientId,
           "client_secret": endpoints.clientSecret,
-          "refresh_token": token.refreshToken
+          "refresh_token": token!.refreshToken
         },
         needsToken: false);
 

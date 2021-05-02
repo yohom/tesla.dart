@@ -24,7 +24,7 @@ class TeslaClientImpl implements TeslaClient {
   TeslaAccessToken get token => throw "This platform is not supported.";
 
   @override
-  set token(TeslaAccessToken token) => throw "This platform is not supported.";
+  set token(TeslaAccessToken? token) => throw "This platform is not supported.";
 
   @override
   bool get isAuthorized => throw "This platform is not supported.";

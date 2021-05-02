@@ -21,7 +21,7 @@ class TeslaClientImpl extends TeslaHttpClient {
   TeslaClientImpl(
     String email,
     String password,
-    TeslaAccessToken token,
+    TeslaAccessToken? token,
     TeslaApiEndpoints endpoints, {
     HttpClient? client,
   })  : this.client = client == null ? _createHttpClient() : client,
@@ -49,7 +49,7 @@ class TeslaClientImpl extends TeslaHttpClient {
       if (!isCurrentTokenValid(true)) {
         await login();
       }
-      request.headers.add("Authorization", "Bearer ${token.accessToken}");
+      request.headers.add("Authorization", "Bearer ${token!.accessToken}");
     }
     if (body != null) {
       request.headers.contentType = _jsonContentType;

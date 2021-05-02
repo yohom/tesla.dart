@@ -4,8 +4,8 @@ abstract class TeslaClient {
   factory TeslaClient(
     String email,
     String password, {
-    TeslaApiEndpoints? endpoints,
     TeslaAccessToken? token,
+    TeslaApiEndpoints? endpoints,
   }) {
     return TeslaClientImpl(
       email,
@@ -18,8 +18,8 @@ abstract class TeslaClient {
   String get email;
   String get password;
 
-  TeslaAccessToken get token;
-  set token(TeslaAccessToken token);
+  TeslaAccessToken? get token;
+  set token(TeslaAccessToken? token);
 
   bool get isAuthorized;
 
@@ -36,8 +36,11 @@ abstract class TeslaClient {
   Future<VehicleConfig> getVehicleConfig(int? id);
   Future<GuiSettings> getGuiSettings(int? id);
 
-  Future sendVehicleCommand(int? id, String command,
-      {Map<String, dynamic>? params});
+  Future sendVehicleCommand(
+    int? id,
+    String command, {
+    Map<String, dynamic>? params,
+  });
   Future<Vehicle> wake(int? id);
 
   Future<SummonClient> summon(int? vehicleId, String token);
