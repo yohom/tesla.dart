@@ -16,6 +16,5 @@ class GuiSettings implements TeslaObject {
   String? get temperatureUnits => json!["gui_temperature_units"];
 
   int? get timestamp => json!["timestamp"];
-  DateTime get timestampTime =>
-      new DateTime.fromMillisecondsSinceEpoch(timestamp!);
+  DateTime get timestampTime => DateTime.fromMillisecondsSinceEpoch(timestamp!);
 }

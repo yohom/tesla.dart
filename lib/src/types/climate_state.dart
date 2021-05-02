@@ -38,6 +38,5 @@ class ClimateState implements TeslaObject {
   bool? get hasWiperBladeHeater => json!["wiper_blade_heater"];
 
   int? get timestamp => json!["timestamp"];
-  DateTime get timestampTime =>
-      new DateTime.fromMillisecondsSinceEpoch(timestamp!);
+  DateTime get timestampTime => DateTime.fromMillisecondsSinceEpoch(timestamp!);
 }

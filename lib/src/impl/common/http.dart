@@ -17,7 +17,7 @@ abstract class TeslaHttpClient implements TeslaClient {
   final TeslaApiEndpoints endpoints;
 
   @override
-  TeslaAccessToken token;
+  TeslaAccessToken? token;
 
   bool isCurrentTokenValid(bool refreshable) {
     if (token == null) {
@@ -25,8 +25,8 @@ abstract class TeslaHttpClient implements TeslaClient {
     }
 
     if (refreshable) {
-      var now = new DateTime.now();
-      return token.expiresAt.difference(now).abs().inSeconds >= 60;
+      var now = DateTime.now();
+      return token!.expiresAt.difference(now).abs().inSeconds >= 60;
     }
     return true;
   }
@@ -47,7 +47,7 @@ abstract class TeslaHttpClient implements TeslaClient {
           },
           needsToken: false);
 
-      token = new TeslaJsonAccessToken(result);
+      token = TeslaJsonAccessToken(result);
       return;
     }
 
@@ -56,11 +56,11 @@ abstract class TeslaHttpClient implements TeslaClient {
           "grant_type": "refresh_token",
           "client_id": endpoints.clientId,
           "client_secret": endpoints.clientSecret,
-          "refresh_token": token.refreshToken
+          "refresh_token": token!.refreshToken
         },
         needsToken: false);
 
-    token = new TeslaJsonAccessToken(result);
+    token = TeslaJsonAccessToken(result);
   }
 
   @override
@@ -70,7 +70,7 @@ abstract class TeslaHttpClient implements TeslaClient {
     var result = await (getJsonList("vehicles") as FutureOr<List<dynamic>>);
 
     for (var item in result) {
-      vehicles.add(new Vehicle(this, item));
+      vehicles.add(Vehicle(this, item));
     }
 
     return vehicles;
@@ -78,42 +78,42 @@ abstract class TeslaHttpClient implements TeslaClient {
 
   @override
   Future<Vehicle> getVehicle(int? id) async {
-    return new Vehicle(this, await getJsonMap("vehicles/${id}"));
+    return Vehicle(this, await getJsonMap("vehicles/${id}"));
   }
 
   @override
   Future<AllVehicleState> getAllVehicleState(int? id) async {
-    return new AllVehicleState(
+    return AllVehicleState(
         this, await getJsonMap("vehicles/${id}/vehicle_data"));
   }
 
   @override
   Future<ChargeState> getChargeState(int? id) async {
-    return new ChargeState(
+    return ChargeState(
         this, await getJsonMap("vehicles/${id}/data_request/charge_state"));
   }
 
   @override
   Future<DriveState> getDriveState(int? id) async {
-    return new DriveState(
+    return DriveState(
         this, await getJsonMap("vehicles/${id}/data_request/drive_state"));
   }
 
   @override
   Future<ClimateState> getClimateState(int? id) async {
-    return new ClimateState(
+    return ClimateState(
         this, await getJsonMap("vehicles/${id}/data_request/climate_state"));
   }
 
   @override
   Future<VehicleConfig> getVehicleConfig(int? id) async {
-    return new VehicleConfig(
+    return VehicleConfig(
         this, await getJsonMap("vehicles/${id}/data_request/vehicle_config"));
   }
 
   @override
   Future<GuiSettings> getGuiSettings(int? id) async {
-    return new GuiSettings(
+    return GuiSettings(
         this, await getJsonMap("vehicles/${id}/data_request/gui_settings"));
   }
 
@@ -121,21 +121,21 @@ abstract class TeslaHttpClient implements TeslaClient {
   Future sendVehicleCommand(int? vehicleId, String command,
       {Map<String, dynamic>? params}) async {
     var result = await (getJsonMap("vehicles/${vehicleId}/command/${command}",
-        body: params == null ? {} : params, extract: null) as FutureOr<Map<String, dynamic>>);
+        body: params == null ? {} : params,
+        extract: null) as FutureOr<Map<String, dynamic>>);
     if (result["response"] == false) {
       var reason = result["reason"];
       if (reason is String && reason.trim().isNotEmpty) {
-        throw new Exception("Failed to send command '${command}': ${reason}");
+        throw Exception("Failed to send command '${command}': ${reason}");
       } else {
-        throw new Exception("Failed to send command '${command}'");
+        throw Exception("Failed to send command '${command}'");
       }
     }
   }
 
   @override
   Future<Vehicle> wake(int? id) async {
-    return new Vehicle(
-        this, await getJsonMap("vehicles/${id}/wake_up", body: {}));
+    return Vehicle(this, await getJsonMap("vehicles/${id}/wake_up", body: {}));
   }
 
   Future<Map<String, dynamic>?> getJsonMap(String url,

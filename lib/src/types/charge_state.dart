@@ -45,6 +45,5 @@ class ChargeState implements TeslaObject {
   bool? get isTripCharging => json!["trip_charging"];
 
   int? get timestamp => json!["timestamp"];
-  DateTime get timestampTime =>
-      new DateTime.fromMillisecondsSinceEpoch(timestamp!);
+  DateTime get timestampTime => DateTime.fromMillisecondsSinceEpoch(timestamp!);
 }

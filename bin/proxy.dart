@@ -99,8 +99,8 @@ Future main(List<String> args) async {
   var address = args[0];
   var port = int.parse(args[1]);
   var server = await HttpServer.bind(address, port);
-  var client = new HttpClient();
-  var proxy = new TeslaProxy(client, new TeslaApiEndpoints.standard());
+  var client = HttpClient();
+  var proxy = TeslaProxy(client, TeslaApiEndpoints.standard());
 
   client.autoUncompress = false;
   server.autoCompress = false;

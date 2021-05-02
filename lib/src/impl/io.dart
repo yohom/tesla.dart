@@ -9,10 +9,10 @@ import 'common/http.dart';
 import 'common/summon.dart';
 
 final ContentType _jsonContentType =
-    new ContentType("application", "json", charset: "utf-8");
+    ContentType("application", "json", charset: "utf-8");
 
 HttpClient _createHttpClient() {
-  var client = new HttpClient();
+  var client = HttpClient();
   client.userAgent = "Tesla.dart";
   return client;
 }
@@ -21,7 +21,7 @@ class TeslaClientImpl extends TeslaHttpClient {
   TeslaClientImpl(
     String email,
     String password,
-    TeslaAccessToken token,
+    TeslaAccessToken? token,
     TeslaApiEndpoints endpoints, {
     HttpClient? client,
   })  : this.client = client == null ? _createHttpClient() : client,
@@ -49,7 +49,7 @@ class TeslaClientImpl extends TeslaHttpClient {
       if (!isCurrentTokenValid(true)) {
         await login();
       }
-      request.headers.add("Authorization", "Bearer ${token.accessToken}");
+      request.headers.add("Authorization", "Bearer ${token!.accessToken}");
     }
     if (body != null) {
       request.headers.contentType = _jsonContentType;
@@ -59,7 +59,7 @@ class TeslaClientImpl extends TeslaHttpClient {
     var content =
         await response.cast<List<int>>().transform(const Utf8Decoder()).join();
     if (response.statusCode != 200) {
-      throw new Exception(
+      throw Exception(
           "Failed to perform action. (Status Code: ${response.statusCode})\n${content}");
     }
     var result = const JsonDecoder().convert(content);
@@ -128,7 +128,7 @@ class SummonClientImpl extends SummonCommonClient {
     // ignore: close_sinks
     var socket = await WebSocket.connect(url.toString(),
         headers: {"Authorization": "Basic ${auth}"});
-    var client = new SummonClientImpl(socket);
+    var client = SummonClientImpl(socket);
     return client;
   }
 }

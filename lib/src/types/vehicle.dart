@@ -71,10 +71,10 @@ class Vehicle implements TeslaObject {
       if (result.state == "online") {
         return result;
       }
-      await new Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
     }
 
-    throw new Exception("Failed to wake up vehicle.");
+    throw Exception("Failed to wake up vehicle.");
   }
 
   Future sendCommand(String command, {Map<String, dynamic>? params}) async {
@@ -156,7 +156,7 @@ class Vehicle implements TeslaObject {
       "type": "share_ext_content_raw",
       "value": {"android.intent.extra.TEXT": input},
       "locale": "en-US",
-      "timestamp_ms": new DateTime.now().millisecondsSinceEpoch.toString()
+      "timestamp_ms": DateTime.now().millisecondsSinceEpoch.toString()
     });
   }
 

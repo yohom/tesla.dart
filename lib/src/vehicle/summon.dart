@@ -108,7 +108,7 @@ class SummonAutoparkHeartbeatAppMessage extends SummonRequestMessage {
 
   @override
   Map<String, dynamic> get params =>
-      {"timestamp": new DateTime.now().millisecondsSinceEpoch};
+      {"timestamp": DateTime.now().millisecondsSinceEpoch};
 }
 
 class SummonAutoparkForwardMessage extends SummonRequestMessage {

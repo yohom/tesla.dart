@@ -5,8 +5,12 @@ import 'dart:async';
 import '../../tesla.dart';
 
 class TeslaClientImpl implements TeslaClient {
-  TeslaClientImpl(String email, String password, TeslaAccessToken? token,
-      TeslaApiEndpoints endpoints) {
+  TeslaClientImpl(
+    String email,
+    String password,
+    TeslaAccessToken? token,
+    TeslaApiEndpoints endpoints,
+  ) {
     throw "This platform is not supported.";
   }
 
@@ -20,7 +24,7 @@ class TeslaClientImpl implements TeslaClient {
   TeslaAccessToken get token => throw "This platform is not supported.";
 
   @override
-  set token(TeslaAccessToken token) => throw "This platform is not supported.";
+  set token(TeslaAccessToken? token) => throw "This platform is not supported.";
 
   @override
   bool get isAuthorized => throw "This platform is not supported.";
