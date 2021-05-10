@@ -11,7 +11,7 @@ class TeslaClientImpl extends TeslaHttpClient {
   TeslaClientImpl(
     String email,
     String password,
-    TeslaAccessToken token,
+    TeslaAccessToken? token,
     TeslaApiEndpoints endpoints,
   ) : super(email, password, token, endpoints);
 
