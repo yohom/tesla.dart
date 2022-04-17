@@ -27,8 +27,9 @@ class TeslaJsonAccessToken extends TeslaAccessToken {
 
   @override
   DateTime get createdAt =>
-      DateTime.fromMillisecondsSinceEpoch(createdAtEpochSeconds! * 1000);
+      DateTime.fromMillisecondsSinceEpoch((createdAtEpochSeconds ?? 0) * 1000);
 
   @override
-  DateTime get expiresAt => createdAt.add(Duration(seconds: expiresInSeconds!));
+  DateTime get expiresAt =>
+      createdAt.add(Duration(seconds: expiresInSeconds ?? 0));
 }
